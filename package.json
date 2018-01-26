@@ -1,0 +1,29 @@
+{
+  "name": "streamwave-library",
+  "version": "1.0.0",
+  "description": "main api of streamwave pwa",
+  "main": "server.js",
+  "scripts": {
+    "test": "jest test",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Mathieu-R/streamwave-library.git"
+  },
+  "keywords": [
+    "streamwave",
+    "api"
+  ],
+  "author": "Mathieu-R",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Mathieu-R/streamwave-library/issues"
+  },
+  "homepage": "https://github.com/Mathieu-R/streamwave-library#readme",
+  "dependencies": {
+    "express-jwt": "^5.3.0",
+    "get-pixels": "^3.3.0",
+    "sequelize": "^4.32.2"
+  }
+}
