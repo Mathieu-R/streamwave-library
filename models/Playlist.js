@@ -1,6 +1,9 @@
 const Sequelize = require('sequelize');
 const db = require('../pgsql');
 
+const Track = require('./Track');
+const PlaylistTrack = require('./Playlist-Track');
+
 const Playlist = db.define('playlist', {
   id: {
     primaryKey: true,
@@ -18,4 +21,5 @@ const Playlist = db.define('playlist', {
   }
 });
 
+Playlist.belongsToMany(Track, {through: PlaylistTrack});
 module.exports = Playlist;
