@@ -35,5 +35,5 @@ const Track = db.define('track', {
 });
 
 Track.belongsTo(Album);
-Track.belongsToMany(Playlist, {through: PlaylistTrack});
+Track.belongsToMany(Playlist, {through: 'PlaylistTrack'});
 module.exports = Track;
