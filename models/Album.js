@@ -20,6 +20,10 @@ const Album = db.define('album', {
     type: Sequelize.TINYINT,
     allowNull: false
   },
+  genre: {
+    type: Sequelize.STRING,
+    allowNull: true
+  },
   coverURL: {
     type: Sequelize.STRING,
     allowNull: false

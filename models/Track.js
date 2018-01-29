@@ -11,11 +11,20 @@ const Track = db.define('track', {
     defaultValue: Sequelize.UUIDV4,
     allowNull: false
   },
+  trackNumber: {
+    type: Sequelize.TINYINT,
+    allowNull: true
+  },
+  duration: {
+    // duration in second
+    type: Sequelize.SMALLINT,
+    allowNull: false
+  },
   manifestURL: {
     type: Sequelize.STRING,
     allowNull: false
   },
-  playlistm3u8URL: {
+  playlistHLSURL: {
     type: Sequelize.STRING,
     allowNull: false
   },
