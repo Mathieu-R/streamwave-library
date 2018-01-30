@@ -11,8 +11,12 @@ const {
   getLibrary, getAlbum
 } = require('./controllers/library');
 const {
-  getAllUserPlaylists, getUserPlaylist
+  getAllUserPlaylists, getUserPlaylist,
+  addPlaylist, addTrackToPlaylist
 } = require('./controllers/playlist');
+const {
+  search
+} = require('./controllers/search');
 
 const app = express();
 const server = http.createServer(app);
@@ -43,6 +47,10 @@ router.get('/library', getLibrary);
 router.get('/album/:title', getAlbum);
 router.get('/playlists', getAllUserPlaylists);
 router.get('/playlist/:title', getUserPlaylist);
+
+router.post('/search', search);
+router.post('/playlist', addPlaylist);
+router.post('/playlist/:id', addTrackToPlaylist);
 
 app.use(router);
 
