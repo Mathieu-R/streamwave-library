@@ -2,7 +2,7 @@ const Album = require('../models/Album');
 const Track = require('../models/Track');
 
 function getLibrary (req, res) {
-  Album.getAll().then(albums => res.json(albums));
+  Album.find({}).then(albums => res.json(albums));
 }
 
 function getAlbum (req, res) {

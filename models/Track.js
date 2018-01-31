@@ -1,48 +1,38 @@
-const Sequelize = require('sequelize');
-const db = require('../pgsql');
+const mongoose = require('../mongoose');
+const ObjectID = mongoose.Schema.Types.ObjectId;
 
-const Album = require('./Album');
-const Playlist = require('./Playlist');
-const PlaylistTrack = require('./Playlist-Track');
-
-const Track = db.define('track', {
-  id: {
-    primaryKey: true,
-    type: Sequelize.UUID,
-    defaultValue: Sequelize.UUIDV4,
-    allowNull: false
+const TrackSchema = new mongoose.Schema({
+  number: {
+    type: Number
   },
-  trackNumber: {
-    type: Sequelize.TINYINT,
-    allowNull: true
-  },
+  // references to playlist id
+  playlists: [ObjectID],
+  // duration in second
   duration: {
-    // duration in second
-    type: Sequelize.SMALLINT,
-    allowNull: false
+    type: Number,
+    required: true
   },
   manifestURL: {
-    type: Sequelize.STRING,
-    allowNull: false
+    type: String,
+    required: true
   },
   playlistHLSURL: {
-    type: Sequelize.STRING,
-    allowNull: false
+    type: String,
+    required: true
   },
   audio128URL: {
-    type: Sequelize.STRING,
-    allowNull: false
+    type: String,
+    required: true
   },
   audio192URL: {
-    type: Sequelize.STRING,
-    allowNull: false
+    type: String,
+    required: true
   },
   audio256URL: {
-    type: Sequelize.STRING,
-    allowNull: false
+    type: String,
+    required: true
   }
 });
 
-Track.belongsTo(Album);
-Track.belongsToMany(Playlist, {through: 'PlaylistTrack'});
+const Track = mongoose.model('Track', TrackSchema);
 module.exports = Track;

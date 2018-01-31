@@ -1,58 +1,48 @@
-const Sequelize = require('sequelize');
-const db = require('../pgsql');
+const mongoose = require('../mongoose');
+const ObjectID = mongoose.Schema.Types.ObjectId;
+const Track = require('./Track');
 
-const Album = db.define('album', {
-  id: {
-    primaryKey: true,
-    type: Sequelize.UUID,
-    defaultValue: Sequelize.UUIDV4,
-    allowNull: false
-  },
+const AlbumSchema = new mongoose.Schema({
   artist: {
-    type: Sequelize.STRING(50),
-    allowNull: false
+    type: String,
+    required: true
   },
   title: {
-    type: Sequelize.STRING(50),
-    allowNull: false
+    type: String,
+    required: true
   },
   year: {
-    type: Sequelize.SMALLINT,
-    allowNull: false
+    type: Number,
+    required: true
   },
   genre: {
-    type: Sequelize.STRING,
-    allowNull: true
+    type: String
   },
   coverURL: {
-    type: Sequelize.STRING,
-    allowNull: false
+    type: String,
+    required: true
   },
+  // embedded documents
+  tracks: [Track],
   primaryColorR: {
-    type: Sequelize.TINYINT,
-    allowNull: false,
-    validate: {
-      min: 0,
-      max: 255
-    }
+    type: Number,
+    required: true,
+    min: 0,
+    max: 255
   },
   primaryColorG: {
-    type: Sequelize.TINYINT,
-    allowNull: false,
-    validate: {
-      min: 0,
-      max: 255
-    }
+    type: Number,
+    required: true,
+    min: 0,
+    max: 255
   },
   primaryColorB: {
-    type: Sequelize.TINYINT,
-    allowNull: false,
-    validate: {
-      min: 0,
-      max: 255
-    }
+    type: Number,
+    required: true,
+    min: 0,
+    max: 255
   }
-});
+})
 
+const Album = mongoose.model('Album', AlbumSchema);
 module.exports = Album;
-

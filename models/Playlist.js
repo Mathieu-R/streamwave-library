@@ -1,25 +1,18 @@
-const Sequelize = require('sequelize');
-const db = require('../pgsql');
+const mongoose = require('../mongoose');
+const ObjectID = mongoose.Schema.Types.ObjectId;
 
-const Track = require('./Track');
-const PlaylistTrack = require('./Playlist-Track');
-
-const Playlist = db.define('playlist', {
-  id: {
-    primaryKey: true,
-    type: Sequelize.UUID,
-    defaultValue: Sequelize.UUIDV4,
-    allowNull: false
-  },
+const PlaylistSchema = new mongoose.Schema({
   userId: {
-    type: Sequelize.STRING,
-    allowNull: false
+    type: String,
+    required: true
   },
   title: {
-    type: Sequelize.STRING,
-    allowNull: false
-  }
+    type: String,
+    required: true
+  },
+  // references to track id
+  tracks: [ObjectID]
 });
 
-Playlist.belongsToMany(Track, {through: 'PlaylistTrack'});
+const Playlist = mongoose.model('Playlist', PlaylistSchema);
 module.exports = Playlist;

@@ -6,7 +6,8 @@
   "scripts": {
     "test": "jest test",
     "start": "nodemon server.js",
-    "debug": "nodemon --inspect server.js"
+    "debug": "nodemon --inspect server.js",
+    "prod": "NODE_ENV=production node server.js"
   },
   "repository": {
     "type": "git",
