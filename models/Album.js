@@ -17,7 +17,7 @@ const Album = db.define('album', {
     allowNull: false
   },
   year: {
-    type: Sequelize.TINYINT,
+    type: Sequelize.SMALLINT,
     allowNull: false
   },
   genre: {
@@ -30,15 +30,27 @@ const Album = db.define('album', {
   },
   primaryColorR: {
     type: Sequelize.TINYINT,
-    allowNull: false
+    allowNull: false,
+    validate: {
+      min: 0,
+      max: 255
+    }
   },
   primaryColorG: {
     type: Sequelize.TINYINT,
-    allowNull: false
+    allowNull: false,
+    validate: {
+      min: 0,
+      max: 255
+    }
   },
   primaryColorB: {
     type: Sequelize.TINYINT,
-    allowNull: false
+    allowNull: false,
+    validate: {
+      min: 0,
+      max: 255
+    }
   }
 });
 

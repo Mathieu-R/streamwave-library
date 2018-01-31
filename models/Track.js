@@ -3,6 +3,7 @@ const db = require('../pgsql');
 
 const Album = require('./Album');
 const Playlist = require('./Playlist');
+const PlaylistTrack = require('./Playlist-Track');
 
 const Track = db.define('track', {
   id: {
@@ -43,5 +44,5 @@ const Track = db.define('track', {
 });
 
 Track.belongsTo(Album);
-Track.belongsTo(Playlist);
+Track.belongsToMany(Playlist, {through: 'PlaylistTrack'});
 module.exports = Track;
