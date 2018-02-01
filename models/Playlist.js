@@ -14,5 +14,7 @@ const PlaylistSchema = new mongoose.Schema({
   tracks: [ObjectID]
 });
 
+PlaylistSchema.index({userId: 1});
+
 const Playlist = mongoose.model('Playlist', PlaylistSchema);
 module.exports = Playlist;

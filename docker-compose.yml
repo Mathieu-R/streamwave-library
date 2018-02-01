@@ -1,8 +1,8 @@
 version: '3'
 
 services:
-  postgres:
+  mongo:
     image: mongo
-    container_name: mongo
+    container_name: mongo_api
     ports:
       - "27017:27017"

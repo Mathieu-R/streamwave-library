@@ -1,6 +1,6 @@
 const mongoose = require('../mongoose');
 const ObjectID = mongoose.Schema.Types.ObjectId;
-const Track = require('./Track');
+const {TrackSchema} = require('./Track');
 
 const AlbumSchema = new mongoose.Schema({
   artist: {
@@ -23,7 +23,7 @@ const AlbumSchema = new mongoose.Schema({
     required: true
   },
   // embedded documents
-  tracks: [Track],
+  tracks: [TrackSchema],
   primaryColorR: {
     type: Number,
     required: true,
@@ -42,7 +42,9 @@ const AlbumSchema = new mongoose.Schema({
     min: 0,
     max: 255
   }
-})
+});
+
+AlbumSchema.index({created_at: 1});
 
 const Album = mongoose.model('Album', AlbumSchema);
 module.exports = Album;
