@@ -1,0 +1,38 @@
+{
+  "name": "streamwave-library",
+  "version": "1.0.0",
+  "description": "main api of streamwave pwa",
+  "main": "server.js",
+  "scripts": {
+    "test": "jest test",
+    "start": "nodemon server.js",
+    "debug": "nodemon --inspect server.js",
+    "prod": "NODE_ENV=production node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Mathieu-R/streamwave-library.git"
+  },
+  "keywords": [
+    "streamwave",
+    "api"
+  ],
+  "author": "Mathieu-R",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Mathieu-R/streamwave-library/issues"
+  },
+  "homepage": "https://github.com/Mathieu-R/streamwave-library#readme",
+  "dependencies": {
+    "command-line-args": "^5.0.1",
+    "cors": "^2.8.4",
+    "express": "^4.16.2",
+    "express-jwt": "^5.3.0",
+    "get-pixels": "^3.3.0",
+    "mongoose": "^5.0.3"
+  },
+  "devDependencies": {
+    "dotenv": "^4.0.0",
+    "nodemon": "^1.14.11"
+  }
+}
