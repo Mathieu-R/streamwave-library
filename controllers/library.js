@@ -1,5 +1,8 @@
 const Album = require('../models/Album');
 const Track = require('../models/Track');
+//const m2s = require('mongoose-to-swagger');
+
+//console.log(m2s(Album));
 
 function getLibrary (req, res) {
   Album.find({})
