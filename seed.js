@@ -2,7 +2,7 @@ const {promisify} = require('util');
 const fs = require('fs');
 const dotenv = require('dotenv').config();
 const {medianCut} = require('./lib/median-cut');
-const CDN = 'http://cdn.streamwave.be';
+const CDN = 'https://cdn.streamwave.be';
 
 const seed = JSON.parse(fs.readFileSync('./seed.json'));
 const Album = require('./models/Album');
