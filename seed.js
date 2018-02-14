@@ -1,5 +1,6 @@
 const {promisify} = require('util');
 const fs = require('fs');
+const dotenv = require('dotenv').config();
 const {medianCut} = require('./lib/median-cut');
 const CDN = 'http://cdn.streamwave.be';
 
