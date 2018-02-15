@@ -1,5 +1,10 @@
 const {insertAlbums} = require('./seed');
 
 insertAlbums()
-  .then(() => process.exit(1))
-  .catch(() => process.exit(0));
+  .then(albums => {
+    process.exit(1);
+  })
+  .catch(err => {
+    console.error(err);
+    process.exit(0);
+  });

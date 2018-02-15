@@ -12,20 +12,21 @@ function insertAlbums () {
   const albumsObject = prepareAlbumsObject(seed);
   const albumsWithPrimaryColorPromise = Promise.all(albumsObject.map(album => {
     return fetchCoverAndPerformMedianCut(album.coverURL).then(primaryColor => {
-      return album.primaryColor = primaryColor;
+      album.primaryColor = primaryColor;
+      return album;
     });
   }));
 
-  return albumsWithPrimaryColorPromise.then(albums => {
+  return albumsWithPrimaryColorPromise.then(async albums => {
     return Album.insertMany(albums);
   });
 }
 
 function prepareAlbumsObject (seed) {
   return seed.reduce((prev, track) => {
-    const index = prev.findIndex(obj => obj.album === track.album);
+    const index = prev.findIndex(obj => obj.title === track.album);
     if (index >= 0) {
-      prev[index]['tracks'].push = trackObject(track);
+      prev[index]['tracks'].push(trackObject(track));
     } else {
       prev.push(albumObject(track));
     }
@@ -36,6 +37,7 @@ function prepareAlbumsObject (seed) {
 function trackObject ({trackNumber, title, duration, manifestURL, playlistHLSURL, audio128URL, audio192URL, audio256URL}) {
   return {
     number: trackNumber,
+    title,
     playlists: [],
     duration,
     manifestURL,
@@ -50,8 +52,8 @@ function albumObject ({artist, album, year, genre, coverURL}) {
     return {
       artist,
       title: album,
-      year,
-      genre,
+      year: year || 0,
+      genre: genre || 'unknown',
       coverURL,
       tracks: [],
       primaryColor: {r: 0, g: 0, b: 0}
