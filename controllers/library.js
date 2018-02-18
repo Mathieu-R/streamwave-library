@@ -21,7 +21,9 @@ function getAlbum (req, res) {
     return;
   }
 
-  Track.findOne()
+  Album.findById(id, 'tracks')
+    .then(tracks => res.json(tracks))
+    .catch(err => console.error(err));
 }
 
 module.exports = {
