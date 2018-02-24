@@ -13,7 +13,6 @@ function getLibrary (req, res) {
 }
 
 function getAlbum (req, res) {
-  // maybe do not need that
   const {id} = req.params;
 
   if (!id) {
@@ -21,7 +20,7 @@ function getAlbum (req, res) {
     return;
   }
 
-  Album.findById(id, 'tracks')
+  Album.findById(id)
     .then(tracks => res.json(tracks))
     .catch(err => console.error(err));
 }
