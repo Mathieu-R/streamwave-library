@@ -24,23 +24,25 @@ const AlbumSchema = new mongoose.Schema({
   },
   // embedded documents
   tracks: [TrackSchema],
-  primaryColorR: {
-    type: Number,
-    required: true,
-    min: 0,
-    max: 255
-  },
-  primaryColorG: {
-    type: Number,
-    required: true,
-    min: 0,
-    max: 255
-  },
-  primaryColorB: {
-    type: Number,
-    required: true,
-    min: 0,
-    max: 255
+  primaryColor: {
+    r: {
+      type: Number,
+      required: true,
+      min: 0,
+      max: 255
+    },
+    g: {
+      type: Number,
+      required: true,
+      min: 0,
+      max: 255
+    },
+    b: {
+      type: Number,
+      required: true,
+      min: 0,
+      max: 255
+    }
   }
 });
 

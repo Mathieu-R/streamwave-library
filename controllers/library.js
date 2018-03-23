@@ -1,5 +1,8 @@
 const Album = require('../models/Album');
 const Track = require('../models/Track');
+//const m2s = require('mongoose-to-swagger');
+
+//console.log(m2s(Album));
 
 function getLibrary (req, res) {
   Album.find({})
@@ -10,7 +13,6 @@ function getLibrary (req, res) {
 }
 
 function getAlbum (req, res) {
-  // maybe do not need that
   const {id} = req.params;
 
   if (!id) {
@@ -18,7 +20,9 @@ function getAlbum (req, res) {
     return;
   }
 
-  Track.findOne()
+  Album.findById(id)
+    .then(tracks => res.json(tracks))
+    .catch(err => console.error(err));
 }
 
 module.exports = {
