@@ -488,11 +488,11 @@
     "genre": "",
     "duration": 270,
     "coverURL": "laisse-entrer-la-fraicheur/laisse-entrer-la-fraicheur.jpg",
-    "manifestURL": "laisse-entrer-la-fraicheur/03-856115-Mady-Je regrette/manifest-full.mpd",
-    "playlistHLSURL": "laisse-entrer-la-fraicheur/03-856115-Mady-Je regrette/playlist-all.m3u8",
-    "audio128URL": "laisse-entrer-la-fraicheur/03-856115-Mady-Je regrette/03-856115-Mady-Je regrette-128.mp4",
-    "audio192URL": "laisse-entrer-la-fraicheur/03-856115-Mady-Je regrette/03-856115-Mady-Je regrette-192.mp4",
-    "audio256URL": "laisse-entrer-la-fraicheur/03-856115-Mady-Je regrette/03-856115-Mady-Je regrette-256.mp4"
+    "manifestURL": "laisse-entrer-la-fraicheur/03-856115-Mady-Je_regrette/manifest-full.mpd",
+    "playlistHLSURL": "laisse-entrer-la-fraicheur/03-856115-Mady-Je_regrette/playlist-all.m3u8",
+    "audio128URL": "laisse-entrer-la-fraicheur/03-856115-Mady-Je regrette/03-856115-Mady-Je_regrette-128.mp4",
+    "audio192URL": "laisse-entrer-la-fraicheur/03-856115-Mady-Je regrette/03-856115-Mady-Je_regrette-192.mp4",
+    "audio256URL": "laisse-entrer-la-fraicheur/03-856115-Mady-Je regrette/03-856115-Mady-Je_regrette-256.mp4"
   },
   {
     "artist": "Mady",
@@ -503,11 +503,11 @@
     "genre": "",
     "duration": 62,
     "coverURL": "laisse-entrer-la-fraicheur/laisse-entrer-la-fraicheur.jpg",
-    "manifestURL": "laisse-entrer-la-fraicheur/04-856114-Mady-Qui est-ce _interlude_/manifest-full.mpd",
-    "playlistHLSURL": "laisse-entrer-la-fraicheur/04-856114-Mady-Qui est-ce _interlude_/playlist-all.m3u8",
-    "audio128URL": "laisse-entrer-la-fraicheur/04-856114-Mady-Qui est-ce _interlude_/04-856114-Mady-Qui est-ce _interlude_-128.mp4",
-    "audio192URL": "laisse-entrer-la-fraicheur/04-856114-Mady-Qui est-ce _interlude_/04-856114-Mady-Qui est-ce _interlude_-192.mp4",
-    "audio256URL": "laisse-entrer-la-fraicheur/04-856114-Mady-Qui est-ce _interlude_/04-856114-Mady-Qui est-ce _interlude_-256.mp4"
+    "manifestURL": "laisse-entrer-la-fraicheur/04-856114-Mady-Qui_est-ce_interlude/manifest-full.mpd",
+    "playlistHLSURL": "laisse-entrer-la-fraicheur/04-856114-Mady-Qui_est-ce_interlude/playlist-all.m3u8",
+    "audio128URL": "laisse-entrer-la-fraicheur/04-856114-Mady-Qui_est-ce_interlude/04-856114-Mady-Qui_est-ce_interlude_-128.mp4",
+    "audio192URL": "laisse-entrer-la-fraicheur/04-856114-Mady-Qui_est-ce_interlude/04-856114-Mady-Qui_est-ce_interlude_-192.mp4",
+    "audio256URL": "laisse-entrer-la-fraicheur/04-856114-Mady-Qui_est-ce_interlude/04-856114-Mady-Qui_est-ce_interlude_-256.mp4"
   },
   {
     "artist": "Mady",
@@ -518,11 +518,11 @@
     "genre": "",
     "duration": 39,
     "coverURL": "laisse-entrer-la-fraicheur/laisse-entrer-la-fraicheur.jpg",
-    "manifestURL": "laisse-entrer-la-fraicheur/05-856117-Mady-Laisse entrer la fraicheur/manifest-full.mpd",
-    "playlistHLSURL": "laisse-entrer-la-fraicheur/05-856117-Mady-Laisse entrer la fraicheur/playlist-all.m3u8",
-    "audio128URL": "laisse-entrer-la-fraicheur/05-856117-Mady-Laisse entrer la fraicheur/05-856117-Mady-Laisse entrer la fraicheur-128.mp4",
-    "audio192URL": "laisse-entrer-la-fraicheur/05-856117-Mady-Laisse entrer la fraicheur/05-856117-Mady-Laisse entrer la fraicheur-192.mp4",
-    "audio256URL": "laisse-entrer-la-fraicheur/05-856117-Mady-Laisse entrer la fraicheur/05-856117-Mady-Laisse entrer la fraicheur-256.mp4"
+    "manifestURL": "laisse-entrer-la-fraicheur/05-856117-Mady-Laisse_entrer_la_fraicheur/manifest-full.mpd",
+    "playlistHLSURL": "laisse-entrer-la-fraicheur/05-856117-Mady-Laisse_entrer_la_fraicheur/playlist-all.m3u8",
+    "audio128URL": "laisse-entrer-la-fraicheur/05-856117-Mady-Laisse_entrer_la_fraicheur/05-856117-Mady-Laisse_entrer_la_fraicheur-128.mp4",
+    "audio192URL": "laisse-entrer-la-fraicheur/05-856117-Mady-Laisse_entrer_la_fraicheur/05-856117-Mady-Laisse_entrer_la_fraicheur-192.mp4",
+    "audio256URL": "laisse-entrer-la-fraicheur/05-856117-Mady-Laisse_entrer_la_fraicheur/05-856117-Mady-Laisse_entrer_la_fraicheur-256.mp4"
   },
   {
     "artist": "Mady",
@@ -533,11 +533,11 @@
     "genre": "",
     "duration": 245,
     "coverURL": "laisse-entrer-la-fraicheur/laisse-entrer-la-fraicheur.jpg",
-    "manifestURL": "laisse-entrer-la-fraicheur/06-856124-Mady-Dilemme _feat/manifest-full.mpd",
-    "playlistHLSURL": "laisse-entrer-la-fraicheur/06-856124-Mady-Dilemme _feat/playlist-all.m3u8",
-    "audio128URL": "laisse-entrer-la-fraicheur/06-856124-Mady-Dilemme _feat/06-856124-Mady-Dilemme _feat-128.mp4",
-    "audio192URL": "laisse-entrer-la-fraicheur/06-856124-Mady-Dilemme _feat/06-856124-Mady-Dilemme _feat-192.mp4",
-    "audio256URL": "laisse-entrer-la-fraicheur/06-856124-Mady-Dilemme _feat/06-856124-Mady-Dilemme _feat-256.mp4"
+    "manifestURL": "laisse-entrer-la-fraicheur/06-856124-Mady-Dilemme_feat_Manty/manifest-full.mpd",
+    "playlistHLSURL": "laisse-entrer-la-fraicheur/06-856124-Mady-Dilemme_feat_Manty/playlist-all.m3u8",
+    "audio128URL": "laisse-entrer-la-fraicheur/06-856124-Mady-Dilemme_feat_Manty/06-856124-Mady-Dilemme_feat_Manty-128.mp4",
+    "audio192URL": "laisse-entrer-la-fraicheur/06-856124-Mady-Dilemme_feat_Manty/06-856124-Mady-Dilemme_feat_Manty-192.mp4",
+    "audio256URL": "laisse-entrer-la-fraicheur/06-856124-Mady-Dilemme_feat_Manty/06-856124-Mady-Dilemme_feat_Manty-256.mp4"
   },
   {
     "artist": "Mady",
@@ -548,11 +548,11 @@
     "genre": "",
     "duration": 118,
     "coverURL": "laisse-entrer-la-fraicheur/laisse-entrer-la-fraicheur.jpg",
-    "manifestURL": "laisse-entrer-la-fraicheur/07-856128-Mady-Different _interlude_/manifest-full.mpd",
-    "playlistHLSURL": "laisse-entrer-la-fraicheur/07-856128-Mady-Different _interlude_/playlist-all.m3u8",
-    "audio128URL": "laisse-entrer-la-fraicheur/07-856128-Mady-Different _interlude_/07-856128-Mady-Different _interlude_-128.mp4",
-    "audio192URL": "laisse-entrer-la-fraicheur/07-856128-Mady-Different _interlude_/07-856128-Mady-Different _interlude_-192.mp4",
-    "audio256URL": "laisse-entrer-la-fraicheur/07-856128-Mady-Different _interlude_/07-856128-Mady-Different _interlude_-256.mp4"
+    "manifestURL": "laisse-entrer-la-fraicheur/07-856128-Mady-Different_interlude/manifest-full.mpd",
+    "playlistHLSURL": "laisse-entrer-la-fraicheur/07-856128-Mady-Different_interlude/playlist-all.m3u8",
+    "audio128URL": "laisse-entrer-la-fraicheur/07-856128-Mady-Different_interlude/07-856128-Mady-Different_interlude-128.mp4",
+    "audio192URL": "laisse-entrer-la-fraicheur/07-856128-Mady-Different_interlude/07-856128-Mady-Different_interlude-192.mp4",
+    "audio256URL": "laisse-entrer-la-fraicheur/07-856128-Mady-Different_interlude/07-856128-Mady-Different_interlude-256.mp4"
   },
   {
     "artist": "Mady",
@@ -563,11 +563,11 @@
     "genre": "",
     "duration": 245,
     "coverURL": "laisse-entrer-la-fraicheur/laisse-entrer-la-fraicheur.jpg",
-    "manifestURL": "laisse-entrer-la-fraicheur/08-856129-Mady-Les mots me manquent/manifest-full.mpd",
-    "playlistHLSURL": "laisse-entrer-la-fraicheur/08-856129-Mady-Les mots me manquent/playlist-all.m3u8",
-    "audio128URL": "laisse-entrer-la-fraicheur/08-856129-Mady-Les mots me manquent/08-856129-Mady-Les mots me manquent-128.mp4",
-    "audio192URL": "laisse-entrer-la-fraicheur/08-856129-Mady-Les mots me manquent/08-856129-Mady-Les mots me manquent-192.mp4",
-    "audio256URL": "laisse-entrer-la-fraicheur/08-856129-Mady-Les mots me manquent/08-856129-Mady-Les mots me manquent-256.mp4"
+    "manifestURL": "laisse-entrer-la-fraicheur/08-856129-Mady-Les_mots_me_manquent/manifest-full.mpd",
+    "playlistHLSURL": "laisse-entrer-la-fraicheur/08-856129-Mady-Les_mots_me_manquent/playlist-all.m3u8",
+    "audio128URL": "laisse-entrer-la-fraicheur/08-856129-Mady-Les_mots_me_manquent/08-856129-Mady-Les_mots_me_manquent-128.mp4",
+    "audio192URL": "laisse-entrer-la-fraicheur/08-856129-Mady-Les_mots_me_manquent/08-856129-Mady-Les_mots_me_manquent-192.mp4",
+    "audio256URL": "laisse-entrer-la-fraicheur/08-856129-Mady-Les_mots_me_manquent/08-856129-Mady-Les_mots_me_manquent-256.mp4"
   },
   {
     "artist": "Mady",
@@ -578,11 +578,11 @@
     "genre": "",
     "duration": 236,
     "coverURL": "laisse-entrer-la-fraicheur/laisse-entrer-la-fraicheur.jpg",
-    "manifestURL": "laisse-entrer-la-fraicheur/09-856130-Mady-Jusqu_au bout/manifest-full.mpd",
-    "playlistHLSURL": "laisse-entrer-la-fraicheur/09-856130-Mady-Jusqu_au bout/playlist-all.m3u8",
-    "audio128URL": "laisse-entrer-la-fraicheur/09-856130-Mady-Jusqu_au bout/09-856130-Mady-Jusqu_au bout-128.mp4",
-    "audio192URL": "laisse-entrer-la-fraicheur/09-856130-Mady-Jusqu_au bout/09-856130-Mady-Jusqu_au bout-192.mp4",
-    "audio256URL": "laisse-entrer-la-fraicheur/09-856130-Mady-Jusqu_au bout/09-856130-Mady-Jusqu_au bout-256.mp4"
+    "manifestURL": "laisse-entrer-la-fraicheur/09-856130-Mady-Jusqu_au_bout/manifest-full.mpd",
+    "playlistHLSURL": "laisse-entrer-la-fraicheur/09-856130-Mady-Jusqu_au_bout/playlist-all.m3u8",
+    "audio128URL": "laisse-entrer-la-fraicheur/09-856130-Mady-Jusqu_au_bout/09-856130-Mady-Jusqu_au_bout-128.mp4",
+    "audio192URL": "laisse-entrer-la-fraicheur/09-856130-Mady-Jusqu_au_bout/09-856130-Mady-Jusqu_au_bout-192.mp4",
+    "audio256URL": "laisse-entrer-la-fraicheur/09-856130-Mady-Jusqu_au_bout/09-856130-Mady-Jusqu_au_bout-256.mp4"
   },
   {
     "artist": "Mady",

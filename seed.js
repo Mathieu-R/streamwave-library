@@ -17,7 +17,7 @@ function insertAlbums () {
     });
   }));
 
-  return albumsWithPrimaryColorPromise.then(async albums => {
+  return albumsWithPrimaryColorPromise.then(albums => {
     return Album.insertMany(albums);
   });
 }
@@ -48,14 +48,14 @@ function trackObject ({trackNumber, title, duration, manifestURL, playlistHLSURL
   };
 }
 
-function albumObject ({artist, album, year, genre, coverURL}) {
+function albumObject ({artist, album, year, genre, coverURL}, track) {
     return {
       artist,
       title: album,
       year: year || 0,
       genre: genre || 'unknown',
       coverURL,
-      tracks: [],
+      tracks: [track],
       primaryColor: {r: 0, g: 0, b: 0}
     };
 }
