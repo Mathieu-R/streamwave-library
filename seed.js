@@ -28,7 +28,7 @@ function prepareAlbumsObject (seed) {
     if (index >= 0) {
       prev[index]['tracks'].push(trackObject(track));
     } else {
-      prev.push(albumObject(track));
+      prev.push(albumObject(track, trackObject(track)));
     }
     return prev;
   }, []);
