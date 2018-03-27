@@ -1,29 +1,39 @@
 const mongoose = require('../mongoose');
+const mongoosastic = require('mongoosastic');
 const ObjectID = mongoose.Schema.Types.ObjectId;
 const {TrackSchema} = require('./Track');
 
 const AlbumSchema = new mongoose.Schema({
   artist: {
     type: String,
-    required: true
+    required: true,
+    // indexed by elastic-search
+    es_indexed: true
   },
   title: {
     type: String,
-    required: true
+    required: true,
+    es_indexed: true
   },
   year: {
     type: Number,
-    required: true
+    required: true,
+    es_indexed: true
   },
   genre: {
-    type: String
+    type: String,
+    es_indexed: true
   },
   coverURL: {
     type: String,
     required: true
   },
   // embedded documents
-  tracks: [TrackSchema],
+  tracks: {
+    type: [TrackSchema],
+    es_type: 'nested',
+    es_include_in_parent: true
+  },
   primaryColor: {
     r: {
       type: Number,
@@ -47,6 +57,9 @@ const AlbumSchema = new mongoose.Schema({
 });
 
 AlbumSchema.index({created_at: 1});
+
+// bind our schema to elasticsearch
+AlbumSchema.plugin(mongoosastic);
 
 const Album = mongoose.model('Album', AlbumSchema);
 module.exports = Album;
