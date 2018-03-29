@@ -44,7 +44,7 @@ router.get('/album/:id', getAlbum);
 router.get('/playlists', getUserAllPlaylists);
 router.get('/playlist/:id', getUserPlaylist);
 
-router.post('/search', search);
+router.get('/search/:term', search);
 router.post('/playlist', addPlaylist);
 router.post('/playlist/:playlistId', addTrackToPlaylist);
 
