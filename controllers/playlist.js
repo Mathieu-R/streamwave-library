@@ -65,6 +65,7 @@ function addTrackToPlaylist (req, res) {
     .then(playlist => {
       return playlist.tracks.push(trackId);
     })
+    .then(playlist => playlist.save())
     .catch(err => console.error(err));
 }
 
