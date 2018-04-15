@@ -1,5 +1,6 @@
 const Playlist = require('../models/Playlist');
 const Track = require('../models/Track');
+const ws = require('../websocket');
 
 function getUserAllPlaylists (req, res) {
   Playlist.find({userId: req.user.id})
@@ -30,6 +31,7 @@ function getUserPlaylist (req, res) {
 
 function addPlaylist (req, res) {
   const {title} = req.body;
+  console.log(req.body.title);
 
   if (!title) {
     res.status(422).send('playlist title is missing.');
@@ -44,6 +46,10 @@ function addPlaylist (req, res) {
 
   playlist.save()
     .then(playlist => res.status(200).send(playlist))
+    // broadcast to all other user devices connected through websocket
+    .then(_ => {
+
+    })
     .catch(err => console.error(err));
 }
 
