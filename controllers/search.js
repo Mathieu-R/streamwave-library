@@ -10,6 +10,10 @@ function search (req, res) {
     res.status(422).send('Search term is missing.');
     return;
   }
+
+  Album.search(term).then(result => {
+    console.log(result);
+  });
 }
 
 module.exports = {
