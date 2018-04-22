@@ -17,7 +17,7 @@ function getUserPlaylist (req, res) {
   }
 
   // use projection here to only retrieve tracks list
-  Playlist.findOne(id, {tracks: 1})
+  Playlist.findOne({_id: id}, {tracks: 1})
     .then(tracksId => {
       // maybe do not need $in
       // https://docs.mongodb.com/manual/core/index-multikey/
@@ -67,11 +67,13 @@ function addTrackToPlaylist (req, res) {
     return;
   }
 
-  Playlist.findOne(playlistId)
+  Playlist.findById(playlistId)
     .then(playlist => {
-      return playlist.tracks.push(trackId);
+      playlist.tracks.push(trackId);
+      return playlist;
     })
     .then(playlist => playlist.save())
+    .then(() => res.status(200).json({done: true}))
     .catch(err => console.error(err));
 }
 
