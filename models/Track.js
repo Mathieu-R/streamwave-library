@@ -1,4 +1,5 @@
 const mongoose = require('../mongoose');
+const mongoosastic = require('mongoosastic');
 const ObjectID = mongoose.Schema.Types.ObjectId;
 
 const TrackSchema = new mongoose.Schema({
@@ -7,7 +8,8 @@ const TrackSchema = new mongoose.Schema({
   },
   title: {
     type: String,
-    required: true
+    required: true,
+    es_indexed: true
   },
   // references to playlist id
   playlists: [ObjectID],
@@ -37,6 +39,8 @@ const TrackSchema = new mongoose.Schema({
     required: true
   }
 });
+
+TrackSchema.plugin(mongoosastic);
 
 const Track = mongoose.model('Track', TrackSchema);
 module.exports = Track;

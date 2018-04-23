@@ -1,5 +1,6 @@
 const Playlist = require('../models/Playlist');
 const Track = require('../models/Track');
+const ws = require('../websocket');
 
 function getUserAllPlaylists (req, res) {
   Playlist.find({userId: req.user.id})
@@ -16,7 +17,7 @@ function getUserPlaylist (req, res) {
   }
 
   // use projection here to only retrieve tracks list
-  Playlist.findOne(id, {tracks: 1})
+  Playlist.findOne({_id: id}, {tracks: 1})
     .then(tracksId => {
       // maybe do not need $in
       // https://docs.mongodb.com/manual/core/index-multikey/
@@ -30,6 +31,7 @@ function getUserPlaylist (req, res) {
 
 function addPlaylist (req, res) {
   const {title} = req.body;
+  console.log(req.body.title);
 
   if (!title) {
     res.status(422).send('playlist title is missing.');
@@ -44,6 +46,10 @@ function addPlaylist (req, res) {
 
   playlist.save()
     .then(playlist => res.status(200).send(playlist))
+    // broadcast to all other user devices connected through websocket
+    .then(_ => {
+
+    })
     .catch(err => console.error(err));
 }
 
@@ -61,10 +67,13 @@ function addTrackToPlaylist (req, res) {
     return;
   }
 
-  Playlist.findOne(playlistId)
+  Playlist.findById(playlistId)
     .then(playlist => {
-      return playlist.tracks.push(trackId);
+      playlist.tracks.push(trackId);
+      return playlist;
     })
+    .then(playlist => playlist.save())
+    .then(() => res.status(200).json({done: true}))
     .catch(err => console.error(err));
 }
 
