@@ -1,5 +1,4 @@
 const mongoose = require('../mongoose');
-const mongoosastic = require('mongoosastic');
 const ObjectID = mongoose.Schema.Types.ObjectId;
 
 const TrackSchema = new mongoose.Schema({
