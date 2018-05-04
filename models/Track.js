@@ -40,8 +40,6 @@ const TrackSchema = new mongoose.Schema({
   }
 });
 
-TrackSchema.plugin(mongoosastic);
-
 const Track = mongoose.model('Track', TrackSchema);
 module.exports = Track;
 module.exports = {
