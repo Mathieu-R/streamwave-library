@@ -31,7 +31,6 @@ function getUserPlaylist (req, res) {
 
 function addPlaylist (req, res) {
   const {title} = req.body;
-  console.log(req.body.title);
 
   if (!title) {
     res.status(422).send('playlist title is missing.');

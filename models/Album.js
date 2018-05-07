@@ -1,5 +1,4 @@
 const mongoose = require('../mongoose');
-const mongoosastic = require('mongoosastic');
 const ObjectID = mongoose.Schema.Types.ObjectId;
 const {TrackSchema} = require('./Track');
 
@@ -57,9 +56,6 @@ const AlbumSchema = new mongoose.Schema({
 });
 
 AlbumSchema.index({created_at: 1});
-
-// bind our schema to elasticsearch
-AlbumSchema.plugin(mongoosastic);
 
 const Album = mongoose.model('Album', AlbumSchema);
 module.exports = Album;
