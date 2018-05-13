@@ -55,7 +55,20 @@ const AlbumSchema = new mongoose.Schema({
   }
 });
 
-AlbumSchema.index({created_at: 1});
+AlbumSchema.index({
+  created_at: 1,
+  genre: 'text',
+  year: 'text',
+  title: 'text',
+  artist: 'text'
+}, {
+  weights: {
+    title: 10,
+    artist: 7,
+    genre: 5,
+    year: 2
+  }
+});
 
 const Album = mongoose.model('Album', AlbumSchema);
 module.exports = Album;
