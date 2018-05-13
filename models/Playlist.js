@@ -1,5 +1,6 @@
 const mongoose = require('../mongoose');
 const mongoosastic = require('mongoosastic');
+const {TrackSchema} = require('./Track')
 const ObjectID = mongoose.Schema.Types.ObjectId;
 
 const PlaylistSchema = new mongoose.Schema({
@@ -12,8 +13,12 @@ const PlaylistSchema = new mongoose.Schema({
     required: true,
     es_indexed: true
   },
-  // references to track id
-  tracks: [ObjectID]
+  // embedded document
+  tracks: {
+    type: [TrackSchema],
+    es_type: 'nested',
+    es_include_in_parent: true
+  }
 });
 
 PlaylistSchema.index({userId: 1});

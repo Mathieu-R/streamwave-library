@@ -1,5 +1,5 @@
 const Album = require('../models/Album');
-const Track = require('../models/Track');
+const {Track} = require('../models/Track');
 
 function getLibrary (req, res) {
   Album.find({})
