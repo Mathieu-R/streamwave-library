@@ -3,7 +3,6 @@ const {Track} = require('../models/Track');
 const ws = require('../websocket');
 
 function getUserAllPlaylists (req, res) {
-  Track.find({}).then(evt => console.log(evt));
   Playlist.find({userId: req.user.id})
     .then(playlists => res.status(200).json(playlists))
     .catch(err => console.error(err));
@@ -20,19 +19,6 @@ function getUserPlaylist (req, res) {
   Playlist.findById(id)
     .then(tracks => res.json(tracks))
     .catch(err => console.error(err));
-
-  // // use projection here to only retrieve tracks list
-  // Playlist.findOne({_id: id}, {tracks: 1})
-  //   .then(tracksId => {
-  //     console.log(tracksId);
-  //     // maybe do not need $in
-  //     // https://docs.mongodb.com/manual/core/index-multikey/
-  //     return Track.find({"$in": {tracksId}});
-  //   })
-  //   .then(tracks => {
-  //     return res.status(200).json(tracks);
-  //   })
-  //   .catch(err => console.error(err));
 }
 
 function addPlaylist (req, res) {
