@@ -10,6 +10,10 @@ const TrackSchema = new mongoose.Schema({
     required: true,
     es_indexed: true
   },
+  coverURL: {
+    type: String,
+    required: true
+  },
   // references to playlist id
   playlists: [ObjectID],
   // duration in second
@@ -40,7 +44,8 @@ const TrackSchema = new mongoose.Schema({
 });
 
 const Track = mongoose.model('Track', TrackSchema);
-module.exports = Track;
+
 module.exports = {
+  Track,
   TrackSchema
 };

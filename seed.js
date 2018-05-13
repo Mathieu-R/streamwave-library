@@ -6,7 +6,7 @@ const CDN = 'https://cdn.streamwave.be';
 
 const seed = JSON.parse(fs.readFileSync('./seed.json'));
 const Album = require('./models/Album');
-const Track = require('./models/Track');
+const {Track} = require('./models/Track');
 
 function insertAlbums () {
   const albumsObject = prepareAlbumsObject(seed);
@@ -34,10 +34,11 @@ function prepareAlbumsObject (seed) {
   }, []);
 }
 
-function trackObject ({trackNumber, title, duration, manifestURL, playlistHLSURL, audio128URL, audio192URL, audio256URL}) {
+function trackObject ({trackNumber, title, coverURL, duration, manifestURL, playlistHLSURL, audio128URL, audio192URL, audio256URL}) {
   return {
     number: trackNumber,
     title,
+    coverURL,
     playlists: [],
     duration,
     manifestURL,
