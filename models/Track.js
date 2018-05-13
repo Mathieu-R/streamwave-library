@@ -10,6 +10,10 @@ const TrackSchema = new mongoose.Schema({
     required: true,
     es_indexed: true
   },
+  coverURL: {
+    type: String,
+    required: true
+  },
   // references to playlist id
   playlists: [ObjectID],
   // duration in second

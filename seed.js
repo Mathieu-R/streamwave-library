@@ -34,10 +34,11 @@ function prepareAlbumsObject (seed) {
   }, []);
 }
 
-function trackObject ({trackNumber, title, duration, manifestURL, playlistHLSURL, audio128URL, audio192URL, audio256URL}) {
+function trackObject ({trackNumber, title, coverURL, duration, manifestURL, playlistHLSURL, audio128URL, audio192URL, audio256URL}) {
   return {
     number: trackNumber,
     title,
+    coverURL,
     playlists: [],
     duration,
     manifestURL,
