@@ -43,7 +43,6 @@ const TrackSchema = new mongoose.Schema({
   }
 });
 
-TrackSchema.index({title: 'text'});
 const Track = mongoose.model('Track', TrackSchema);
 
 module.exports = {

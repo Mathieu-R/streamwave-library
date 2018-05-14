@@ -11,9 +11,15 @@ function search (req, res) {
   }
 
   Album.find(
-    {"$text": {"$search": term}},
-    {score: {"$meta": "textScore"}}
-  ).sort({score:{"$meta": "textScore"}})
+    {
+      $text: {
+        $search: term,
+        $caseSensitive: false
+      }
+    }
+    //{score: {"$meta": "textScore"}}
+  )
+  //.sort({score:{"$meta": "textScore"}})
   .then(results => {
     console.log(results);
     res.status(200).json({results});

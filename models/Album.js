@@ -60,14 +60,16 @@ AlbumSchema.index({
   genre: 'text',
   year: 'text',
   title: 'text',
-  artist: 'text'
+  artist: 'text',
+  'tracks.title': 'text' // index for embedded document
 }, {
   weights: {
     title: 10,
     artist: 7,
     genre: 5,
     year: 2
-  }
+  },
+  name: "libraryTextIndex"
 });
 
 const Album = mongoose.model('Album', AlbumSchema);
