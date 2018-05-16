@@ -36,9 +36,9 @@ encode () {
   mv ./dest/$1/hls/256/prog_index.m3u8 ./dest/$1/hls/256/$1-256.m3u8
 
   variantplaylistcreator -o ./dest/$1/playlist-all.m3u8 \
-    https://streamwave-music-streaming.s3.amazonaws.com/dest/hls/128/$1-128.m3u8 ./src/$1/$1-128.plist \
-    https://streamwave-music-streaming.s3.amazonaws.com/dest/hls/192/$1-192.m3u8 ./src/$1/$1-192.plist \
-    https://streamwave-music-streaming.s3.amazonaws.com/dest/hls/256/$1-256.m3u8 ./src/$1/$1-256.plist
+    https://cdn.streamwave.be/dest/hls/128/$1-128.m3u8 ./src/$1/$1-128.plist \
+    https://cdn.streamwave.be/dest/hls/192/$1-192.m3u8 ./src/$1/$1-192.plist \
+    https://cdn.streamwave.be/dest/hls/256/$1-256.m3u8 ./src/$1/$1-256.plist
 }
 
 # each mp3 file in folder

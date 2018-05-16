@@ -55,8 +55,8 @@ const AlbumSchema = new mongoose.Schema({
   }
 });
 
+AlbumSchema.index({created_at: 1});
 AlbumSchema.index({
-  created_at: 1,
   genre: 'text',
   year: 'text',
   title: 'text',
