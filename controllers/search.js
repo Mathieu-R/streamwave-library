@@ -12,37 +12,38 @@ function search (req, res) {
 
   const conditions = {
     $text: {
-      $search: term,
-      $caseSensitive: false
+      $search: term
     }
   };
 
   const projection = {score: {"$meta": "textScore"}};
 
   Album.find(conditions, projection)
-  .sort({score:{"$meta": "textScore"}})
+  .sort({score: {"$meta": "textScore"}})
   .then(results => {
     const data = {
       albums: [],
       tracks: []
     }
+
     // not possible to only retrieve subdocuments
     // even if they match
     // ugly code is coming :)
+    const lowecasedTerm = term.toLowerCase();
     results.forEach(result => {
       // check if we looked for an album
       if (
-        result.artist.toLowerCase().includes(term) ||
-        result.title.toLowerCase().includes(term) ||
-        result.genre.toLowerCase().includes(term)
+        result.artist.toLowerCase().includes(lowecasedTerm) ||
+        result.title.toLowerCase().includes(lowecasedTerm) ||
+        result.genre.toLowerCase().includes(lowecasedTerm)
       ) {
         data.albums.push(result);
       }
 
       // otherwise it was a track title
       result.tracks.forEach(track => {
-        if (track.title.toLowerCase().includes(term)) {
-          data.tracks.push({...track, artist: result.artist, album: result.title});
+        if (track.title.toLowerCase().includes(lowecasedTerm)) {
+          data.tracks.push({...track.toObject(), artist: result.artist, album: result.title});
         }
       });
     });
