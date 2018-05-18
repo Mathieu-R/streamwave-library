@@ -36,9 +36,9 @@ encode () {
   mv ./dest/$1/hls/256/prog_index.m3u8 ./dest/$1/hls/256/$1-256.m3u8
 
   variantplaylistcreator -o ./dest/$1/playlist-all.m3u8 \
-    https://cdn.streamwave.be/dest/hls/128/$1-128.m3u8 ./src/$1/$1-128.plist \
-    https://cdn.streamwave.be/dest/hls/192/$1-192.m3u8 ./src/$1/$1-192.plist \
-    https://cdn.streamwave.be/dest/hls/256/$1-256.m3u8 ./src/$1/$1-256.plist
+    https://cdn.streamwave.be/$2/$1/hls/128/$1-128.m3u8 ./src/$1/$1-128.plist \
+    https://cdn.streamwave.be/$2/$1/hls/192/$1-192.m3u8 ./src/$1/$1-192.plist \
+    https://cdn.streamwave.be/$2/$1/hls/256/$1-256.m3u8 ./src/$1/$1-256.plist
 }
 
 # each mp3 file in folder
@@ -47,6 +47,7 @@ for file in ./*; do
   extension="${filename##*.}"
   if [ $extension = mp3 ]; then
     filename="${filename%.*}"
-    encode $filename
+    folder=$(basename `pwd`)
+    encode $filename $folder
   fi
 done
