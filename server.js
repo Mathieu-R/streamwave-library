@@ -7,7 +7,7 @@ const url = require('url');
 
 const jwt = require('./middlewares/jwt');
 const {
-  getLibrary, getAlbum
+  getLibrary, getAlbum, uploadMusic
 } = require('./controllers/library');
 const {
   getUserAllPlaylists, getUserPlaylist,
@@ -47,6 +47,9 @@ router.get('/playlist/:id', getUserPlaylist);
 router.get('/search/:term', search);
 router.post('/playlist', addPlaylist);
 router.post('/playlist/:playlistId', addTrackToPlaylist);
+
+// not sure I have time to do that but who knows
+router.post('/album/upload', uploadMusic);
 
 app.use(router);
 
