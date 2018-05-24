@@ -9,14 +9,11 @@ const PlaylistSchema = new mongoose.Schema({
   },
   title: {
     type: String,
-    required: true,
-    es_indexed: true
+    required: true
   },
   // embedded document
   tracks: {
-    type: [TrackSchema],
-    es_type: 'nested',
-    es_include_in_parent: true
+    type: [TrackSchema]
   }
 });
 

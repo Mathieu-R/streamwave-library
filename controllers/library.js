@@ -9,7 +9,7 @@ const Album = require('../models/Album');
 const { Track } = require('../models/Track');
 
 function getLibrary (req, res) {
-  Album.find({})
+  Album.find({owner: 'all' || req.user.id})
     .limit(10)
     .sort({created_at: -1})
     .then(albums => res.json(albums))
@@ -35,7 +35,7 @@ async function uploadMusic (req, res) {
   try {
     const {metadatas, album} = await retrieveMetadata(musics);
     await processFiles({path: '/tmp/uploads', album});
-    await insertIntoDatabase(metadatas);
+    await insertIntoDatabase(metadatas, req.user.id);
     await uploadToCDN(album);
     res.status(200).json({done: true});
   } catch (err) {
@@ -80,8 +80,8 @@ const retrieveMetadata = async (musics) => {
 // insert metadata into database
 // TODO: change album collections
 // field: owner => 'all', '<userid>'
-const insertIntoDatabase = (metadatas) => {
-  return insertAlbums(metadatas);
+const insertIntoDatabase = (metadatas, userid) => {
+  return insertAlbums(metadatas, userid);
 }
 
 // upload files to cdn

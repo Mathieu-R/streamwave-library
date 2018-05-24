@@ -7,8 +7,8 @@ const CDN = 'https://cdn.streamwave.be';
 const Album = require('./models/Album');
 const {Track} = require('./models/Track');
 
-function insertAlbums (data) {
-  const albumsObject = prepareAlbumsObject(data);
+function insertAlbums (data, owner) {
+  const albumsObject = prepareAlbumsObject(data, owner);
   const albumsWithPrimaryColorPromise = Promise.all(albumsObject.map(album => {
     return fetchCoverAndPerformMedianCut(album.coverURL).then(primaryColor => {
       album.primaryColor = primaryColor;
@@ -21,13 +21,13 @@ function insertAlbums (data) {
   });
 }
 
-function prepareAlbumsObject (seed) {
+function prepareAlbumsObject (seed, owner) {
   return seed.reduce((prev, track) => {
     const index = prev.findIndex(obj => obj.title === track.album);
     if (index >= 0) {
       prev[index]['tracks'].push(trackObject(track));
     } else {
-      prev.push(albumObject(track, trackObject(track)));
+      prev.push(albumObject(track, trackObject(track), owner));
     }
     return prev;
   }, []);
@@ -48,8 +48,9 @@ function trackObject ({trackNumber, title, coverURL, duration, manifestURL, play
   };
 }
 
-function albumObject ({artist, album, year, genre, coverURL}, track) {
+function albumObject ({artist, album, year, genre, coverURL}, track, owner) {
     return {
+      owner,
       artist,
       title: album,
       year: year || 0,
