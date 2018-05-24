@@ -2,8 +2,11 @@ const http = require('http');
 const express = require('express');
 const dotenv = require('dotenv').config();
 const bodyParser = require('body-parser');
+const multer = require('multer');
+const upload = multer({dest: '/tmp/uploads/'});
 const cors = require('cors');
 const url = require('url');
+
 
 const jwt = require('./middlewares/jwt');
 const {
@@ -49,7 +52,7 @@ router.post('/playlist', addPlaylist);
 router.post('/playlist/:playlistId', addTrackToPlaylist);
 
 // not sure I have time to do that but who knows
-router.post('/album/upload', uploadMusic);
+router.post('/album/upload', upload.array('musics'), uploadMusic);
 
 app.use(router);
 

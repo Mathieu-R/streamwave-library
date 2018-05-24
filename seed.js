@@ -4,12 +4,11 @@ const dotenv = require('dotenv').config();
 const {medianCut} = require('./lib/median-cut');
 const CDN = 'https://cdn.streamwave.be';
 
-const seed = JSON.parse(fs.readFileSync('./seed.json'));
 const Album = require('./models/Album');
 const {Track} = require('./models/Track');
 
-function insertAlbums () {
-  const albumsObject = prepareAlbumsObject(seed);
+function insertAlbums (data) {
+  const albumsObject = prepareAlbumsObject(data);
   const albumsWithPrimaryColorPromise = Promise.all(albumsObject.map(album => {
     return fetchCoverAndPerformMedianCut(album.coverURL).then(primaryColor => {
       album.primaryColor = primaryColor;
