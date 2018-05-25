@@ -1,12 +1,15 @@
 const { promisify } = require('util');
 const { exec } = require('child_process');
 const path = require('path');
+const fs = require('fs');
 const mm = promisify(require('musicmetadata'));
 const { metadataObject } = require('../utils');
 const { insertAlbums } = require('../seed');
 
 const Album = require('../models/Album');
 const { Track } = require('../models/Track');
+
+const move = (oldPath, newPath) => promisify(fs.rename(oldPath, newPath));
 
 function getLibrary (req, res) {
   Album.find({owner: 'all' || req.user.id})
@@ -31,6 +34,8 @@ function getAlbum (req, res) {
 
 async function uploadMusic (req, res) {
   const {musics} = req.files;
+  console.log(req.files);
+  return;
 
   try {
     const {metadatas, album} = await retrieveMetadata(musics);
@@ -87,7 +92,7 @@ const insertIntoDatabase = (metadatas, userid) => {
 // upload files to cdn
 const uploadToCDN = () => {
   if (process.env.NODE_ENV === 'production') {
-    return promisify(exec)(`mv /tmp/uploads/dest/ /var/www/assets/CDN/${album}/`);
+    return move('/tmp/uploads/dest/', `/var/www/assets/CDN/${album}/`);
   }
 
   console.error('upload only works in production mode...');
