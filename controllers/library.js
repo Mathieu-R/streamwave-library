@@ -2,14 +2,17 @@ const { promisify } = require('util');
 const { exec } = require('child_process');
 const path = require('path');
 const fs = require('fs');
-const mm = promisify(require('musicmetadata'));
+const musicmetadata = require('musicmetadata');
 const { metadataObject } = require('../utils');
 const { insertAlbums } = require('../seed');
 
 const Album = require('../models/Album');
 const { Track } = require('../models/Track');
 
-const move = (oldPath, newPath) => promisify(fs.rename(oldPath, newPath));
+const mm = promisify(musicmetadata);
+const move = promisify(fs.rename);
+const readdir = promisify(fs.readdir);
+const unlink = promisify(fs.unlink);
 
 function getLibrary (req, res) {
   Album.find({owner: 'all' || req.user.id})
@@ -33,18 +36,20 @@ function getAlbum (req, res) {
 }
 
 async function uploadMusic (req, res) {
-  const {musics} = req.files;
-  console.log(req.files);
-  return;
-
+  const musics = req.files;
   try {
     const {metadatas, album} = await retrieveMetadata(musics);
+    console.log(metadatas, album);
+    return;
     await processFiles({path: '/tmp/uploads', album});
     await insertIntoDatabase(metadatas, req.user.id);
     await uploadToCDN(album);
+    await clearTempDirectory();
     res.status(200).json({done: true});
   } catch (err) {
+    await clearTempDirectory();
     console.error(err);
+    res.status(500).send('Erreur lors de l\'importation des musiques');
   }
 }
 
@@ -64,17 +69,21 @@ const processFiles = async ({path, album}) => {
 // from files
 const retrieveMetadata = async (musics) => {
   let album;
-  const metadatas = await Promise.all(musics.map(music => {
+  const metadatasPromises = Promise.all(musics.map(music => {
     const stream = fs.createReadStream(music.path);
     const metadata = mm(stream, {duration: true});
     stream.close();
     return metadata;
   }));
 
+  console.log(metadatasPromises);
+  const metadatas = await metadatasPromises;
+  console.log(metadatas);
+  return;
   const object = metadatas.map(async metadata => {
     // in case of single
     metadata.album = metadata.album || metadata.title;
-    await promisify(fs.writeFile)(`/tmp/uploads/src/artworks/${slugify(metadata.album)}.jpg`, metadata.picture[0].data);
+    await promisify(fs.writeFile)(`/tmp/uploads/dest/${slugify(metadata.album)}.jpg`, metadata.picture[0].data);
     // create metadata. remove the extension
     return metadataObject(metadata, metadata.name.replace(/\..*$/, ''));
   });
@@ -96,6 +105,13 @@ const uploadToCDN = () => {
   }
 
   console.error('upload only works in production mode...');
+}
+
+const clearTempDirectory = async () => {
+  const directory = '/tmp/uploads';
+  const files = await readdir(directory);
+  const unlinkPromises = files.map(filename => unlink(`${directory}/${filename}`));
+  return Promise.all(unlinkPromises);
 }
 
 module.exports = {

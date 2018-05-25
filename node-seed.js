@@ -1,3 +1,4 @@
+const fs = require('fs');
 const seed = JSON.parse(fs.readFileSync('./seed.json'));
 const {insertAlbums} = require('./seed');
 

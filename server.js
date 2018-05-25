@@ -7,7 +7,6 @@ const upload = multer({dest: '/tmp/uploads/'});
 const cors = require('cors');
 const url = require('url');
 
-
 const jwt = require('./middlewares/jwt');
 const {
   getLibrary, getAlbum, uploadMusic
