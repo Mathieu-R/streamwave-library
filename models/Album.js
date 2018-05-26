@@ -3,25 +3,25 @@ const ObjectID = mongoose.Schema.Types.ObjectId;
 const {TrackSchema} = require('./Track');
 
 const AlbumSchema = new mongoose.Schema({
-  artist: {
+  owner: {
     type: String,
     required: true,
-    // indexed by elastic-search
-    es_indexed: true
+    default: 'all'
+  },
+  artist: {
+    type: String,
+    required: true
   },
   title: {
     type: String,
-    required: true,
-    es_indexed: true
+    required: true
   },
   year: {
     type: Number,
-    required: true,
-    es_indexed: true
+    required: true
   },
   genre: {
-    type: String,
-    es_indexed: true
+    type: String
   },
   coverURL: {
     type: String,
@@ -29,9 +29,7 @@ const AlbumSchema = new mongoose.Schema({
   },
   // embedded documents
   tracks: {
-    type: [TrackSchema],
-    es_type: 'nested',
-    es_include_in_parent: true
+    type: [TrackSchema]
   },
   primaryColor: {
     r: {

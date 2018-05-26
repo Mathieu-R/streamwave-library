@@ -1,6 +1,8 @@
+const fs = require('fs');
+const seed = JSON.parse(fs.readFileSync('./seed.json'));
 const {insertAlbums} = require('./seed');
 
-insertAlbums()
+insertAlbums(seed)
   .then(albums => {
     process.exit(1);
   })

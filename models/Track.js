@@ -7,8 +7,7 @@ const TrackSchema = new mongoose.Schema({
   },
   title: {
     type: String,
-    required: true,
-    es_indexed: true
+    required: true
   },
   coverURL: {
     type: String,
