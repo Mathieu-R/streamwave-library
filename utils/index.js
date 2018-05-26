@@ -1,6 +1,8 @@
 const slugify = require('slugify');
 
-const metadataObject = (metadata, filename) => {
+const UPLOAD_PATH = '/tmp/uploads';
+
+const metadataObject = (metadata, format, filename) => {
   const albumSlug = slugify(metadata.album, {lower: true});
   return {
     artist: metadata.artist[0],
@@ -9,7 +11,7 @@ const metadataObject = (metadata, filename) => {
     year: metadata.year,
     trackNumber: metadata.track.no,
     genre: metadata.genre[0],
-    duration: metadata.duration,
+    duration: format.duration || 0,
     coverURL: `${albumSlug}/${albumSlug}.jpg`,
     manifestURL: `${albumSlug}/${filename}/manifest-full.mpd`,
     playlistHLSURL: `${albumSlug}/${filename}/playlist-all.m3u8`,
@@ -20,5 +22,6 @@ const metadataObject = (metadata, filename) => {
 }
 
 module.exports = {
+  UPLOAD_PATH,
   metadataObject
 }

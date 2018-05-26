@@ -1,18 +1,16 @@
 const { promisify } = require('util');
-const { exec } = require('child_process');
+const { exec, spawn } = require('child_process');
 const path = require('path');
-const fs = require('fs');
-const musicmetadata = require('musicmetadata');
-const { metadataObject } = require('../utils');
+const fs = require('fs-extra');
+const slugify = require('slugify');
+const mm = require('music-metadata');
+const { metadataObject, UPLOAD_PATH } = require('../utils');
 const { insertAlbums } = require('../seed');
 
 const Album = require('../models/Album');
 const { Track } = require('../models/Track');
 
-const mm = promisify(musicmetadata);
-const move = promisify(fs.rename);
-const readdir = promisify(fs.readdir);
-const unlink = promisify(fs.unlink);
+const resolvePath = path.resolve;
 
 function getLibrary (req, res) {
   Album.find({owner: 'all' || req.user.id})
@@ -39,16 +37,17 @@ async function uploadMusic (req, res) {
   const musics = req.files;
   try {
     const {metadatas, album} = await retrieveMetadata(musics);
-    console.log(metadatas, album);
-    return;
-    await processFiles({path: '/tmp/uploads', album});
+    await processFiles({path: UPLOAD_PATH, album});
     await insertIntoDatabase(metadatas, req.user.id);
     await uploadToCDN(album);
     await clearTempDirectory();
+    await fs.mkdirp(UPLOAD_PATH);
     res.status(200).json({done: true});
   } catch (err) {
-    await clearTempDirectory();
     console.error(err);
+    clearTempDirectory()
+      .then(_ => fs.mkdirp(UPLOAD_PATH))
+      .catch(err => console.error(err));
     res.status(500).send('Erreur lors de l\'importation des musiques');
   }
 }
@@ -59,59 +58,60 @@ async function uploadMusic (req, res) {
 // cause it only works with mac
 // dest files => /tmp/uploads/dest
 const processFiles = async ({path, album}) => {
-  const shellScriptPath = path.resolve(__dirname, '../lib/encoder-auto.sh');
-  const {stdout, stderr} = await promisify(exec)(`${shellScriptPath} ${path} ${album}`);
-  console.log('stdout:', stdout);
-  console.log('stderr:', stderr);
+  const shellScriptPath = resolvePath(__dirname, '../lib/encoder-auto.sh');
+  const proc = spawn('sh', [shellScriptPath, path, album]);
+  proc.stdout.pipe(process.stdout);
+  proc.stderr.pipe(process.stderr);
+
+  proc.on('close', _ => Promise.resolve());
+  proc.on('error', err => Promise.reject(err));
 }
 
 // retrieve metadata
 // from files
 const retrieveMetadata = async (musics) => {
   let album;
-  const metadatasPromises = Promise.all(musics.map(music => {
+  let metadatas = await Promise.all(musics.map(music => {
     const stream = fs.createReadStream(music.path);
-    const metadata = mm(stream, {duration: true});
-    stream.close();
+    // use the RFC defined mimetype
+    // https://stackoverflow.com/questions/10688588/which-mime-type-should-i-use-for-mp3
+    const mimetype = music.mimetype === 'audio/mp3' ? 'audio/mpeg' : music.mimetype;
+    const metadata = mm.parseStream(stream, mimetype, {duration: true});
+    // stream.close makes metadata promise still pending
     return metadata;
   }));
 
-  console.log(metadatasPromises);
-  const metadatas = await metadatasPromises;
-  console.log(metadatas);
-  return;
-  const object = metadatas.map(async metadata => {
+  metadatas = await Promise.all(metadatas.map(async (metadata, index) => {
+    const filename = musics[index].filename;
     // in case of single
-    metadata.album = metadata.album || metadata.title;
-    await promisify(fs.writeFile)(`/tmp/uploads/dest/${slugify(metadata.album)}.jpg`, metadata.picture[0].data);
+    metadata.common.album = metadata.common.album || metadata.common.title;
+    // same as fs.writeFile but create directory if does not exist
+    await fs.outputFile(`${UPLOAD_PATH}/dest/${slugify(metadata.common.album, {lower: true})}.jpg`, metadata.common.picture[0].data);
     // create metadata. remove the extension
-    return metadataObject(metadata, metadata.name.replace(/\..*$/, ''));
-  });
+    return metadataObject(metadata.common, metadata.format, filename.replace(/\../, ''));
+  }));
 
-  return {metadatas: object, album: object[0].metadata};
+  return {metadatas, album: slugify(metadatas[0].album, {lower: true})};
 }
 
 // insert metadata into database
-// TODO: change album collections
-// field: owner => 'all', '<userid>'
 const insertIntoDatabase = (metadatas, userid) => {
+  console.log(metadatas, userid);
+  return;
   return insertAlbums(metadatas, userid);
 }
 
 // upload files to cdn
 const uploadToCDN = () => {
   if (process.env.NODE_ENV === 'production') {
-    return move('/tmp/uploads/dest/', `/var/www/assets/CDN/${album}/`);
+    return fs.move(`${UPLOAD_PATH}/dest/`, `/var/www/assets/CDN/${album}/`);
   }
 
   console.error('upload only works in production mode...');
 }
 
-const clearTempDirectory = async () => {
-  const directory = '/tmp/uploads';
-  const files = await readdir(directory);
-  const unlinkPromises = files.map(filename => unlink(`${directory}/${filename}`));
-  return Promise.all(unlinkPromises);
+const clearTempDirectory = () => {
+  return fs.remove(UPLOAD_PATH);
 }
 
 module.exports = {
