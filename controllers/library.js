@@ -5,7 +5,7 @@ const fs = require('fs-extra');
 const slugify = require('slugify');
 const mm = require('music-metadata');
 const { metadataObject, UPLOAD_PATH } = require('../utils');
-const { insertAlbums } = require('../seed');
+const { insertAlbumsByUser } = require('../seed');
 
 const Album = require('../models/Album');
 const { Track } = require('../models/Track');
@@ -33,12 +33,13 @@ function getAlbum (req, res) {
     .catch(err => console.error(err));
 }
 
+// only work for 1 album per time
 async function uploadMusic (req, res) {
   const musics = req.files;
   try {
     const {metadatas, album} = await retrieveMetadata(musics);
     await processFiles({path: UPLOAD_PATH, album});
-    await insertIntoDatabase(metadatas, req.user.id);
+    await insertIntoDatabase(metadatas, req.user.id, `${UPLOAD_PATH}/dest/${album}.jpg`);
     await uploadToCDN(album);
     await clearTempDirectory();
     await fs.mkdirp(UPLOAD_PATH);
@@ -57,14 +58,17 @@ async function uploadMusic (req, res) {
 // do not think hls manifest is possible here
 // cause it only works with mac
 // dest files => /tmp/uploads/dest
-const processFiles = async ({path, album}) => {
-  const shellScriptPath = resolvePath(__dirname, '../lib/encoder-auto.sh');
-  const proc = spawn('sh', [shellScriptPath, path, album]);
-  proc.stdout.pipe(process.stdout);
-  proc.stderr.pipe(process.stderr);
+const processFiles = ({path, album}) => {
+  return new Promise((resolve, reject) => {
+    const shellScriptPath = resolvePath(__dirname, '../lib/encoder-auto.sh');
+    const proc = spawn('sh', [shellScriptPath, path, album]);
+    proc.stdout.pipe(process.stdout);
+    proc.stderr.pipe(process.stderr);
 
-  proc.on('close', _ => Promise.resolve());
-  proc.on('error', err => Promise.reject(err));
+    proc.on('close', _ => resolve());
+    proc.on('exit', err => reject(err));
+    proc.on('error', err => reject(err));
+  });
 }
 
 // retrieve metadata
@@ -88,17 +92,15 @@ const retrieveMetadata = async (musics) => {
     // same as fs.writeFile but create directory if does not exist
     await fs.outputFile(`${UPLOAD_PATH}/dest/${slugify(metadata.common.album, {lower: true})}.jpg`, metadata.common.picture[0].data);
     // create metadata. remove the extension
-    return metadataObject(metadata.common, metadata.format, filename.replace(/\../, ''));
+    return metadataObject(metadata.common, metadata.format, filename.replace(/\..*$/, ''));
   }));
 
   return {metadatas, album: slugify(metadatas[0].album, {lower: true})};
 }
 
 // insert metadata into database
-const insertIntoDatabase = (metadatas, userid) => {
-  console.log(metadatas, userid);
-  return;
-  return insertAlbums(metadatas, userid);
+const insertIntoDatabase = (metadatas, userid, coverPath) => {
+  return insertAlbumsByUser(metadatas, userid, coverPath);
 }
 
 // upload files to cdn
