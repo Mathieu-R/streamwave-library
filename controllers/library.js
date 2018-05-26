@@ -13,7 +13,8 @@ const { Track } = require('../models/Track');
 const resolvePath = path.resolve;
 
 function getLibrary (req, res) {
-  Album.find({owner: 'all' || req.user.id})
+  console.log(req.user.id);
+  Album.find({owner: {$in: ['all', req.user.id]}})
     .limit(10)
     .sort({created_at: -1})
     .then(albums => res.json(albums))
