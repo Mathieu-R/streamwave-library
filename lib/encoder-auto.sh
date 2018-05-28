@@ -14,7 +14,7 @@ encode () {
   ffmpeg -i /tmp/uploads/$1.$3 -c:a aac -b:a 256000 -ar 48000 -ac 2 -vn -sn /tmp/uploads/src/$1/$1-256.mp4
 
   # prepare DASH manifest
-  ./lib/packager \
+  /var/www/streamwave-library/lib/packager-linux \
     input=/tmp/uploads/src/$1/$1-128.mp4,stream=audio,output=/tmp/uploads/dest/$1/$1-128.mp4 \
     input=/tmp/uploads/src/$1/$1-192.mp4,stream=audio,output=/tmp/uploads/dest/$1/$1-192.mp4 \
     input=/tmp/uploads/src/$1/$1-256.mp4,stream=audio,output=/tmp/uploads/dest/$1/$1-256.mp4 \
