@@ -39,7 +39,15 @@ function insertAlbumsByUser (data, owner, coverPath) {
   }));
 
   return albumsWithPrimaryColorPromise.then(albums => {
-    return Album.insertMany(albums);
+    return Promise.all(albums.map((album, index) => {
+      // avoid doublon
+      return Album.findOneAndUpdate({title: album.title}, album, {
+        // upsert => if doc does not exist => create it.
+        // new => return the new updated doc and not the old one.
+        upsert: true,
+        new: true
+      });
+    }));
   });
 }
 
