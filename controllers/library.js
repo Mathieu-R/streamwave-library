@@ -115,7 +115,7 @@ const insertIntoDatabase = (metadatas, userid, coverPath) => {
 const uploadToCDN = async (album) => {
   if (process.env.NODE_ENV === 'production') {
     console.log('Uploading to CDN...');
-    // case: path already ther - update album (aka remove and put the new one)
+    // case: path already there - update album (aka remove and put the new one)
     const alreadyThere = await fs.stat(`/var/www/assets/CDN/${album}/`);
     if (alreadyThere) {
       await fs.remove(`/var/www/assets/CDN/${album}/`);
