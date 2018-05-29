@@ -106,10 +106,12 @@ const insertIntoDatabase = (metadatas, userid, coverPath) => {
 }
 
 // upload files to cdn
-const uploadToCDN = (album) => {
+const uploadToCDN = async (album) => {
   if (process.env.NODE_ENV === 'production') {
     console.log('Uploading to CDN...')
-    return fs.move(`${UPLOAD_PATH}/dest/`, `/var/www/assets/CDN/${album}/`);
+    await fs.move(`${UPLOAD_PATH}/dest/`, `/var/www/assets/CDN/${album}/`);
+    return promisify(exec)(`chmod -R 777 /var/www/assets/CDN/${album}/`);
+    //await fs.chmod(`/var/www/assets/CDN/${album}/`, 777);
   }
 
   console.error('upload only works in production mode...');
