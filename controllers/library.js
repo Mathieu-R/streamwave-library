@@ -66,7 +66,7 @@ const processFiles = ({path, album}) => {
     proc.stderr.pipe(process.stderr);
 
     proc.on('close', _ => resolve());
-    proc.on('exit', err => reject(err));
+    //proc.on('exit', _ => resolve());
     proc.on('error', err => reject(err));
   });
 }
