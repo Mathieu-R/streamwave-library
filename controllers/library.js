@@ -4,6 +4,7 @@ const path = require('path');
 const fs = require('fs-extra');
 const slugify = require('slugify');
 const mm = require('music-metadata');
+const sharp = require('sharp');
 const { metadataObject, UPLOAD_PATH } = require('../utils');
 const { insertAlbumsByUser } = require('../seed');
 
@@ -66,6 +67,7 @@ const processFiles = ({path, album}) => {
     proc.stderr.pipe(process.stderr);
 
     proc.on('close', _ => resolve());
+    // exit even when success (code 0)
     //proc.on('exit', _ => resolve());
     proc.on('error', err => reject(err));
   });
@@ -89,8 +91,13 @@ const retrieveMetadata = async (musics) => {
     const filename = musics[index].filename;
     // in case of single
     metadata.common.album = metadata.common.album || metadata.common.title;
+    // create directory
+    await fs.mkdirp(`${UPLOAD_PATH}/dest/`);
+    // optimize image, resize to 300x300 as I do not need more
+    // if do not do that I can have a 1.5mb artwork image
+    await sharp(metadata.common.picture[0].data).resize(300, 300).toFile(`${UPLOAD_PATH}/dest/${slugify(metadata.common.album, {lower: true})}.jpg`);
     // same as fs.writeFile but create directory if does not exist
-    await fs.outputFile(`${UPLOAD_PATH}/dest/${slugify(metadata.common.album, {lower: true})}.jpg`, metadata.common.picture[0].data);
+    //await fs.outputFile(`${UPLOAD_PATH}/dest/${slugify(metadata.common.album, {lower: true})}.jpg`, metadata.common.picture[0].data);
     // create metadata. remove the extension
     return metadataObject(metadata.common, metadata.format, filename.replace(/\..*$/, ''));
   }));
@@ -105,10 +112,12 @@ const insertIntoDatabase = (metadatas, userid, coverPath) => {
 }
 
 // upload files to cdn
-const uploadToCDN = (album) => {
+const uploadToCDN = async (album) => {
   if (process.env.NODE_ENV === 'production') {
     console.log('Uploading to CDN...')
-    return fs.move(`${UPLOAD_PATH}/dest/`, `/var/www/assets/CDN/${album}/`);
+    await fs.move(`${UPLOAD_PATH}/dest/`, `/var/www/assets/CDN/${album}/`);
+    return promisify(exec)(`chmod -R 777 /var/www/assets/CDN/${album}/`);
+    //await fs.chmod(`/var/www/assets/CDN/${album}/`, 777);
   }
 
   console.error('upload only works in production mode...');
