@@ -114,8 +114,15 @@ const insertIntoDatabase = (metadatas, userid, coverPath) => {
 // upload files to cdn
 const uploadToCDN = async (album) => {
   if (process.env.NODE_ENV === 'production') {
-    console.log('Uploading to CDN...')
+    console.log('Uploading to CDN...');
+    // case: path already ther - update album (aka remove and put the new one)
+    const alreadyThere = await fs.stat(`/var/www/assets/CDN/${album}/`);
+    if (alreadyThere) {
+      await fs.remove(`/var/www/assets/CDN/${album}/`);
+    }
+
     await fs.move(`${UPLOAD_PATH}/dest/`, `/var/www/assets/CDN/${album}/`);
+    // give permissions (can be useful for download)
     return promisify(exec)(`chmod -R 777 /var/www/assets/CDN/${album}/`);
     //await fs.chmod(`/var/www/assets/CDN/${album}/`, 777);
   }
