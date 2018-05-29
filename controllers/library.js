@@ -45,7 +45,7 @@ async function uploadMusic (req, res) {
     await fs.mkdirp(UPLOAD_PATH);
     res.status(200).json({done: true});
   } catch (err) {
-    console.error(err);
+    console.error('[ERR UPLOADING] ', err);
     clearTempDirectory()
       .then(_ => fs.mkdirp(UPLOAD_PATH))
       .catch(err => console.error(err));
@@ -100,12 +100,14 @@ const retrieveMetadata = async (musics) => {
 
 // insert metadata into database
 const insertIntoDatabase = (metadatas, userid, coverPath) => {
+  console.log('Inserting into database...');
   return insertAlbumsByUser(metadatas, userid, coverPath);
 }
 
 // upload files to cdn
 const uploadToCDN = () => {
   if (process.env.NODE_ENV === 'production') {
+    console.log('Uploading to CDN...')
     return fs.move(`${UPLOAD_PATH}/dest/`, `/var/www/assets/CDN/${album}/`);
   }
 
