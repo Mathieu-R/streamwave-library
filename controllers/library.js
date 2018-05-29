@@ -105,7 +105,7 @@ const insertIntoDatabase = (metadatas, userid, coverPath) => {
 }
 
 // upload files to cdn
-const uploadToCDN = () => {
+const uploadToCDN = (album) => {
   if (process.env.NODE_ENV === 'production') {
     console.log('Uploading to CDN...')
     return fs.move(`${UPLOAD_PATH}/dest/`, `/var/www/assets/CDN/${album}/`);
