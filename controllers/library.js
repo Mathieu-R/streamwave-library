@@ -4,6 +4,7 @@ const path = require('path');
 const fs = require('fs-extra');
 const slugify = require('slugify');
 const mm = require('music-metadata');
+const sharp = require('sharp');
 const { metadataObject, UPLOAD_PATH } = require('../utils');
 const { insertAlbumsByUser } = require('../seed');
 
@@ -90,8 +91,13 @@ const retrieveMetadata = async (musics) => {
     const filename = musics[index].filename;
     // in case of single
     metadata.common.album = metadata.common.album || metadata.common.title;
+    // create directory
+    await fs.mkdirp(`${UPLOAD_PATH}/dest/`);
+    // optimize image, resize to 300x300 as I do not need more
+    // if do not do that I can have a 1.5mb artwork image
+    await sharp(metadata.common.picture[0].data).resize(300, 300).toFile(`${UPLOAD_PATH}/dest/${slugify(metadata.common.album, {lower: true})}.jpg`);
     // same as fs.writeFile but create directory if does not exist
-    await fs.outputFile(`${UPLOAD_PATH}/dest/${slugify(metadata.common.album, {lower: true})}.jpg`, metadata.common.picture[0].data);
+    //await fs.outputFile(`${UPLOAD_PATH}/dest/${slugify(metadata.common.album, {lower: true})}.jpg`, metadata.common.picture[0].data);
     // create metadata. remove the extension
     return metadataObject(metadata.common, metadata.format, filename.replace(/\..*$/, ''));
   }));
