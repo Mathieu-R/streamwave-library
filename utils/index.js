@@ -4,6 +4,7 @@ const UPLOAD_PATH = '/tmp/uploads';
 
 const metadataObject = (metadata, format, filename) => {
   const albumSlug = slugify(metadata.album, {lower: true});
+  console.log('DB FILENAME', filename);
   return {
     artist: metadata.artist,
     album: metadata.album,
