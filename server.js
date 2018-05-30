@@ -31,7 +31,8 @@ const {
 } = require('./controllers/library');
 const {
   getUserAllPlaylists, getUserPlaylist,
-  addPlaylist, addTrackToPlaylist
+  addPlaylist, addTrackToPlaylist,
+  removeUserPlaylist, removeTrackFromPlaylist
 } = require('./controllers/playlist');
 const {
   search
@@ -63,10 +64,12 @@ router.get('/library', getLibrary);
 router.get('/album/:id', getAlbum);
 router.get('/playlists', getUserAllPlaylists);
 router.get('/playlist/:id', getUserPlaylist);
+router.delete('/playlist/:id', removeUserPlaylist);
 
 router.get('/search/:term', search);
 router.post('/playlist', addPlaylist);
 router.post('/playlist/:playlistId', addTrackToPlaylist);
+router.delete('/playlist/:playlistId/:trackId', removeTrackFromPlaylist);
 
 // not sure I have time to do that but who knows
 router.post('/album/upload', upload.array('musics'), uploadMusic);
