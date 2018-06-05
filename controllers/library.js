@@ -123,7 +123,6 @@ const uploadToCDN = async (album) => {
     // }
 
     return fs.remove(dest).then(async _ => {
-      await fs.mkdirp(dest);
       await fs.move(`${UPLOAD_PATH}/dest/`, dest);
       // give permissions (can be useful for download)
       return promisify(exec)(`chmod -R 777 ${dest}`);
