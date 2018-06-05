@@ -86,7 +86,7 @@ const retrieveMetadata = async (musics) => {
     return metadata;
   }));
 
-  const album = slugify(metadatas[0].album, {lower: true});
+  const album = slugify(metadatas[0].common.album, {lower: true});
   const dest = `${UPLOAD_PATH}/dest`;
   // create directory
   await fs.mkdirp(dest);
