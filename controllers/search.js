@@ -11,6 +11,7 @@ function search (req, res) {
   }
 
   const conditions = {
+    owner: {$in: ['all', req.user.id]},
     $text: {
       $search: term
     }
