@@ -116,16 +116,10 @@ const uploadToCDN = async (album) => {
   if (process.env.NODE_ENV === 'production') {
     console.log('Uploading to CDN...');
     const dest = `/var/www/assets/CDN/${album}/`;
-    // // case: path already there - update album (aka remove and put the new one)
-    // const alreadyThere = await fs.stat(dest);
-    // if (alreadyThere) {
-    //   await fs.remove(`/var/www/assets/CDN/${album}/`);
-    // }
-
     return fs.remove(dest).then(async _ => {
       await fs.move(`${UPLOAD_PATH}/dest/`, dest);
-      // give permissions (can be useful for download)
-      return promisify(exec)(`chmod -R 777 ${dest}`);
+      // give permissions (can be useful for download) (not need it apparently)
+      // return promisify(exec)(`chmod -R 777 ${dest}`);
     }).catch(err => console.error(err));
   }
 
