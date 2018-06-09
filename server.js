@@ -37,6 +37,9 @@ const {
 const {
   search
 } = require('./controllers/search');
+const {
+  initPushService, getVapidKeys, subscribe, unsubscribe
+} = require('./controllers/push-notifications');
 
 const app = express();
 const server = http.createServer(app);
@@ -55,6 +58,9 @@ const corsOptions = {
   allowedHeaders: ['Content-Type', 'Authorization']
 };
 
+// init push notification service
+initPushService().catch(err => console.error(err));
+
 router.use(cors(corsOptions));
 router.use(bodyParser.json());
 router.use(jwt);
@@ -71,7 +77,10 @@ router.post('/playlist', addPlaylist);
 router.post('/playlist/:playlistId', addTrackToPlaylist);
 router.delete('/playlist/:playlistId/:trackId', removeTrackFromPlaylist);
 
-// not sure I have time to do that but who knows
+router.get('/push', getVapidKeys);
+router.post('/push/subscribe', subscribe);
+router.post('/push/unsubscribe', unsubscribe);
+
 router.post('/album/upload', upload.array('musics'), uploadMusic);
 
 app.use(router);
