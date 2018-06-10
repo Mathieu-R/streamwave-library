@@ -24,17 +24,18 @@ function subscribe (req, res) {
 }
 
 function push (subscriptionId, album) {
-  get(subscriptionId).then(subscription => {
+  return get(subscriptionId).then(subscription => {
     if (!subscription) {
       return;
     }
 
-    webpush.sendNotification(subscription, {
+    return webpush.sendNotification(subscription, {
+      album,
       message: `${album} est disponible dans votre catalogue`
     });
   }).catch(err => {
     console.error(err);
-  })
+  });
 }
 
 function unsubscribe (req, res) {
