@@ -5,6 +5,7 @@ const fs = require('fs-extra');
 const slugify = require('slugify');
 const mm = require('music-metadata');
 const sharp = require('sharp');
+const { push } = require('./push-notifications');
 const { metadataObject, UPLOAD_PATH } = require('../utils');
 const { insertAlbumsByUser } = require('../seed');
 
@@ -42,6 +43,14 @@ async function uploadMusic (req, res) {
     await processFiles({path: UPLOAD_PATH, album});
     await insertIntoDatabase(metadatas, req.user.id, `${UPLOAD_PATH}/dest/${album}.jpg`);
     await uploadToCDN(album);
+
+    // push notification header
+    if (req.headers['x-push-id']) {
+      const subscriptionId = req.headers['x-push-id'];
+      // push notification
+      await push(subscriptionId, album)
+    }
+
     await clearTempDirectory();
     await fs.mkdirp(UPLOAD_PATH);
     res.status(200).json({done: true});
@@ -116,16 +125,10 @@ const uploadToCDN = async (album) => {
   if (process.env.NODE_ENV === 'production') {
     console.log('Uploading to CDN...');
     const dest = `/var/www/assets/CDN/${album}/`;
-    // // case: path already there - update album (aka remove and put the new one)
-    // const alreadyThere = await fs.stat(dest);
-    // if (alreadyThere) {
-    //   await fs.remove(`/var/www/assets/CDN/${album}/`);
-    // }
-
     return fs.remove(dest).then(async _ => {
       await fs.move(`${UPLOAD_PATH}/dest/`, dest);
-      // give permissions (can be useful for download)
-      return promisify(exec)(`chmod -R 777 ${dest}`);
+      // give permissions (can be useful for download) (not need it apparently)
+      // return promisify(exec)(`chmod -R 777 ${dest}`);
     }).catch(err => console.error(err));
   }
 
