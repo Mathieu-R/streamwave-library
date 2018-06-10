@@ -64,7 +64,7 @@ const initPushService = async () => {
 
 module.exports = {
   initPushService,
-  getVapidKey,
+  getVapidKeys,
   subscribe,
   push,
   unsubscribe

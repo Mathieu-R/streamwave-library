@@ -63,25 +63,25 @@ initPushService().catch(err => console.error(err));
 
 router.use(cors(corsOptions));
 router.use(bodyParser.json());
-router.use(jwt);
+//router.use(jwt);
 
 router.get('/health', (req, res) => res.send('library api is up !\n'));
-router.get('/library', getLibrary);
-router.get('/album/:id', getAlbum);
-router.get('/playlists', getUserAllPlaylists);
-router.get('/playlist/:id', getUserPlaylist);
-router.delete('/playlist/:id', removeUserPlaylist);
+router.get('/library', jwt, getLibrary);
+router.get('/album/:id', jwt, getAlbum);
+router.get('/playlists', jwt, getUserAllPlaylists);
+router.get('/playlist/:id', jwt, getUserPlaylist);
+router.delete('/playlist/:id', jwt, removeUserPlaylist);
 
-router.get('/search/:term', search);
-router.post('/playlist', addPlaylist);
-router.post('/playlist/:playlistId', addTrackToPlaylist);
-router.delete('/playlist/:playlistId/:trackId', removeTrackFromPlaylist);
+router.get('/search/:term', jwt, search);
+router.post('/playlist', jwt, addPlaylist);
+router.post('/playlist/:playlistId', jwt, addTrackToPlaylist);
+router.delete('/playlist/:playlistId/:trackId', jwt, removeTrackFromPlaylist);
 
 router.get('/push', getVapidKeys);
-router.post('/push/subscribe', subscribe);
-router.post('/push/unsubscribe', unsubscribe);
+router.post('/push/subscribe', jwt, subscribe);
+router.post('/push/unsubscribe', jwt, unsubscribe);
 
-router.post('/album/upload', upload.array('musics'), uploadMusic);
+router.post('/album/upload', jwt, upload.array('musics'), uploadMusic);
 
 app.use(router);
 
