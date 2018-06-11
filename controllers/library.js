@@ -40,9 +40,9 @@ async function uploadMusic (req, res) {
   const musics = req.files;
   try {
     const {metadatas, album} = await retrieveMetadata(musics);
-    await processFiles({path: UPLOAD_PATH, album});
-    await insertIntoDatabase(metadatas, req.user.id, `${UPLOAD_PATH}/dest/${album}.jpg`);
-    await uploadToCDN(album);
+    //await processFiles({path: UPLOAD_PATH, album});
+    //await insertIntoDatabase(metadatas, req.user.id, `${UPLOAD_PATH}/dest/${album}.jpg`);
+    //await uploadToCDN(album);
 
     // push notification header
     if (req.headers['x-push-id']) {
@@ -51,8 +51,8 @@ async function uploadMusic (req, res) {
       await push(subscriptionId, album)
     }
 
-    await clearTempDirectory();
-    await fs.mkdirp(UPLOAD_PATH);
+    //await clearTempDirectory();
+    //await fs.mkdirp(UPLOAD_PATH);
     res.status(200).json({done: true});
   } catch (err) {
     console.error('[ERR UPLOADING] ', err);
