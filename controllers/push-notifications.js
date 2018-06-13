@@ -29,12 +29,12 @@ function push (subscriptionId, album) {
       return;
     }
 
-    console.log(subscription);
-
-    return webpush.sendNotification(JSON.parse(subscription), {
+    const message = JSON.stringify({
       album,
       message: `${album} est disponible dans votre catalogue`
     });
+
+    return webpush.sendNotification(JSON.parse(subscription), message);
   }).catch(err => {
     console.error(err);
   });
