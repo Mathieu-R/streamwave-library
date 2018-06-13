@@ -29,7 +29,9 @@ function push (subscriptionId, album) {
       return;
     }
 
-    return webpush.sendNotification(subscription, {
+    console.log(subscription);
+
+    return webpush.sendNotification(JSON.parse(subscription), {
       album,
       message: `${album} est disponible dans votre catalogue`
     });
