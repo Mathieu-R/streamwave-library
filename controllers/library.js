@@ -5,6 +5,7 @@ const fs = require('fs-extra');
 const slugify = require('slugify');
 const mm = require('music-metadata');
 const sharp = require('sharp');
+const { push } = require('./push-notifications');
 const { metadataObject, UPLOAD_PATH } = require('../utils');
 const { insertAlbumsByUser } = require('../seed');
 
@@ -38,10 +39,17 @@ function getAlbum (req, res) {
 async function uploadMusic (req, res) {
   const musics = req.files;
   try {
-    const {metadatas, album} = await retrieveMetadata(musics);
+    const {metadatas, album, realAlbumName} = await retrieveMetadata(musics);
     await processFiles({path: UPLOAD_PATH, album});
     await insertIntoDatabase(metadatas, req.user.id, `${UPLOAD_PATH}/dest/${album}.jpg`);
     await uploadToCDN(album);
+
+    if (req.headers['x-push-id']) {
+      const subscriptionId = req.headers['x-push-id'];
+      // push notification
+      await push(subscriptionId, realAlbumName);
+    }
+
     await clearTempDirectory();
     await fs.mkdirp(UPLOAD_PATH);
     res.status(200).json({done: true});
@@ -102,7 +110,7 @@ const retrieveMetadata = async (musics) => {
     return metadataObject(metadata.common, metadata.format, filename.replace(/\..*$/, ''));
   }));
 
-  return {metadatas, album};
+  return {metadatas, album, realAlbumName: metadatas[0].common.album};
 }
 
 // insert metadata into database
