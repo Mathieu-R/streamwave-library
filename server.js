@@ -55,7 +55,7 @@ const corsOptions = {
     const u = url.parse(origin);
     cb(null, u.hostname == 'localhost' || u.hostname == '127.0.0.1' || u.hostname == 'www.streamwave.be' || u.hostname == 'streamwave.be' || u.hostname == 'staging.streamwave.be');
   },
-  allowedHeaders: ['Content-Type', 'Authorization'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'x-push-id'],
   exposedHeaders: ['x-push-id']
 };
 
