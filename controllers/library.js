@@ -39,20 +39,19 @@ function getAlbum (req, res) {
 async function uploadMusic (req, res) {
   const musics = req.files;
   try {
-    const {metadatas, album} = await retrieveMetadata(musics);
-    //await processFiles({path: UPLOAD_PATH, album});
-    //await insertIntoDatabase(metadatas, req.user.id, `${UPLOAD_PATH}/dest/${album}.jpg`);
-    //await uploadToCDN(album);
+    const {metadatas, album, realAlbumName} = await retrieveMetadata(musics);
+    await processFiles({path: UPLOAD_PATH, album});
+    await insertIntoDatabase(metadatas, req.user.id, `${UPLOAD_PATH}/dest/${album}.jpg`);
+    await uploadToCDN(album);
 
-    // push notification header
     if (req.headers['x-push-id']) {
       const subscriptionId = req.headers['x-push-id'];
       // push notification
-      await push(subscriptionId, album)
+      await push(subscriptionId, realAlbumName);
     }
 
-    //await clearTempDirectory();
-    //await fs.mkdirp(UPLOAD_PATH);
+    await clearTempDirectory();
+    await fs.mkdirp(UPLOAD_PATH);
     res.status(200).json({done: true});
   } catch (err) {
     console.error('[ERR UPLOADING] ', err);
@@ -111,7 +110,7 @@ const retrieveMetadata = async (musics) => {
     return metadataObject(metadata.common, metadata.format, filename.replace(/\..*$/, ''));
   }));
 
-  return {metadatas, album};
+  return {metadatas, album, realAlbumName: metadatas[0].common.album};
 }
 
 // insert metadata into database
