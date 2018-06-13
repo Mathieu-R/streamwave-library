@@ -95,6 +95,7 @@ const retrieveMetadata = async (musics) => {
   }));
 
   const album = slugify(metadatas[0].common.album, {lower: true});
+  const realAlbumName = metadatas[0].common.album;
   const dest = `${UPLOAD_PATH}/dest`;
   // create directory
   await fs.mkdirp(dest);
@@ -110,7 +111,7 @@ const retrieveMetadata = async (musics) => {
     return metadataObject(metadata.common, metadata.format, filename.replace(/\..*$/, ''));
   }));
 
-  return {metadatas, album, realAlbumName: metadatas[0].common.album};
+  return {metadatas, album, realAlbumName};
 }
 
 // insert metadata into database
