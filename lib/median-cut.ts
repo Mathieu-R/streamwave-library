@@ -1,39 +1,40 @@
 // https://en.wikipedia.org/wiki/Median_cut
-const {promisify} = require('util');
-const commandLineArgs = require('command-line-args');
-const getPixels = require('get-pixels');
+import { promisify } from "util";
+import commandLineArgs, { OptionDefinition } from "command-line-args";
+import getPixels from "get-pixels";
+
 const MAX_DEPTH = 4;
 
-const options = [
-  {name: 'image', alias: 'i', type: String}
+const options: OptionDefinition[] = [
+  { name: "image", alias: "i", type: String },
 ];
 
 const parsedOptions = commandLineArgs(options);
 
-function main (path) {
+function main(path: String) {
   if (!path) {
-    console.log('image path required.');
+    console.log("image path required.");
   }
   medianCut(path);
 }
 
 // source can be a path or url
-function medianCut (source) {
+function medianCut(source: String) {
   return promisify(getPixels)(source)
-    .then(pixels => {
+    .then((pixels) => {
       console.log(pixels);
-      return pixelsRGB(pixels)
+      return pixelsRGB(pixels);
     })
-    .then(pixels => quantize(pixels, 0))
-    .then(quantizedPixels => sortByLuminance(quantizedPixels))
-    .then(sorted => {
+    .then((pixels) => quantize(pixels, 0))
+    .then((quantizedPixels) => sortByLuminance(quantizedPixels))
+    .then((sorted) => {
       const primary = getMostVariantColor(sorted);
       return primary;
     })
-    .catch(err => console.error('Median Cut: ', err));
+    .catch((err) => console.error("Median Cut: ", err));
 }
 
-function pixelsRGB ({shape, data}) {
+function pixelsRGB({ shape, data }) {
   const width = shape[0];
   const heigth = shape[1];
   const pixels = [];
@@ -44,7 +45,7 @@ function pixelsRGB ({shape, data}) {
       pixels.push({
         r: data[index],
         g: data[index + 1],
-        b: data[index + 2]
+        b: data[index + 2],
       });
     }
   }
@@ -60,7 +61,9 @@ function quantize(pixels, depth) {
   // end
   if (depth === MAX_DEPTH) {
     const average = {
-      r: 0, g: 0, b: 0
+      r: 0,
+      g: 0,
+      b: 0,
     };
 
     for (const pixel of pixels) {
@@ -87,11 +90,11 @@ function quantize(pixels, depth) {
   const middle = Math.floor(pixels.length / 2);
   return [
     ...quantize(pixels.slice(0, middle), depth + 1),
-    ...quantize(pixels.slice(middle + 1), depth + 1)
+    ...quantize(pixels.slice(middle + 1), depth + 1),
   ];
 }
 
-function findBiggestRange (pixels) {
+function findBiggestRange(pixels) {
   let color;
 
   let rMin = Number.POSITIVE_INFINITY;
@@ -120,32 +123,32 @@ function findBiggestRange (pixels) {
 
   switch (biggestRange) {
     case biggestRange === rRange:
-      color = 'r';
+      color = "r";
       break;
     case biggestRange === gRange:
-      color = 'g';
+      color = "g";
       break;
     case biggestRange === bRange:
-      color = 'b';
+      color = "b";
       break;
   }
 
   return color;
 }
 
-function sortByLuminance (pixels) {
+function sortByLuminance(pixels) {
   return pixels.sort((pixelA, pixelB) => luminance(pixelA) - luminance(pixelB));
 }
 
-function luminance (pixel) {
-  return (0.2126 * pixel.r + 0.7152 * pixel.g + 0.0722 * pixel.b);
+function luminance(pixel) {
+  return 0.2126 * pixel.r + 0.7152 * pixel.g + 0.0722 * pixel.b;
 }
 
-function getMostVariantColor (colors) {
+function getMostVariantColor(colors) {
   let index = 0;
   let max = Number.NEGATIVE_INFINITY;
   colors
-    .map(c => Math.max(c.r, c.g, c.b) - Math.min(c.r, c.g, c.b))
+    .map((c) => Math.max(c.r, c.g, c.b) - Math.min(c.r, c.g, c.b))
     .forEach((c, i) => {
       if (c > max) {
         index = i;
@@ -157,5 +160,5 @@ function getMostVariantColor (colors) {
 }
 
 module.exports = {
-  medianCut
+  medianCut,
 };

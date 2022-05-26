@@ -1,10 +1,10 @@
-const slugify = require('slugify');
+const slugify = require("slugify");
 
-const UPLOAD_PATH = '/tmp/uploads';
+export const UPLOAD_PATH = "/tmp/uploads";
 
-const metadataObject = (metadata, format, filename) => {
-  const albumSlug = slugify(metadata.album, {lower: true});
-  console.log('DB FILENAME', filename);
+export const metadataObject = (metadata, format, filename: String) => {
+  const albumSlug = slugify(metadata.album, { lower: true });
+  console.log("DB FILENAME", filename);
   return {
     artist: metadata.artist,
     album: metadata.album,
@@ -18,11 +18,6 @@ const metadataObject = (metadata, format, filename) => {
     playlistHLSURL: `${albumSlug}/${filename}/playlist-all.m3u8`,
     audio128URL: `${albumSlug}/${filename}/${filename}-128.mp4`,
     audio192URL: `${albumSlug}/${filename}/${filename}-192.mp4`,
-    audio256URL: `${albumSlug}/${filename}/${filename}-256.mp4`
-  }
-}
-
-module.exports = {
-  UPLOAD_PATH,
-  metadataObject
-}
+    audio256URL: `${albumSlug}/${filename}/${filename}-256.mp4`,
+  };
+};

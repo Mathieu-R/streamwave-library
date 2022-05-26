@@ -1,50 +1,45 @@
-const mongoose = require('../mongoose');
+import mongoose from "../mongoose";
 const ObjectID = mongoose.Schema.Types.ObjectId;
 
-const TrackSchema = new mongoose.Schema({
+export const TrackSchema = new mongoose.Schema({
   number: {
-    type: Number
+    type: Number,
   },
   title: {
     type: String,
-    required: true
+    required: true,
   },
   coverURL: {
     type: String,
-    required: true
+    required: true,
   },
   // references to playlist id
   playlists: [ObjectID],
   // duration in second
   duration: {
     type: Number,
-    required: true
+    required: true,
   },
   manifestURL: {
     type: String,
-    required: true
+    required: true,
   },
   playlistHLSURL: {
     type: String,
-    required: true
+    required: true,
   },
   audio128URL: {
     type: String,
-    required: true
+    required: true,
   },
   audio192URL: {
     type: String,
-    required: true
+    required: true,
   },
   audio256URL: {
     type: String,
-    required: true
-  }
+    required: true,
+  },
 });
 
-const Track = mongoose.model('Track', TrackSchema);
-
-module.exports = {
-  Track,
-  TrackSchema
-};
+export const Track = mongoose.model("Track", TrackSchema);
